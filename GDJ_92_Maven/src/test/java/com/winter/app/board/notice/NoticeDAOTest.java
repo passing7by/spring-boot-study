@@ -1,11 +1,17 @@
 package com.winter.app.board.notice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.winter.app.board.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,6 +68,15 @@ class NoticeDAOTest {
 		
 		// 단정문
 		assertNotNull(result);
+	}
+	
+	@Test
+	void listTest() throws Exception {
+		List<BoardVO> result = noticeDAO.list();
+		
+		log.info("result: {}", result);
+		
+		assertTrue(result.size() > 0);
 	}
 
 }

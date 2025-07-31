@@ -48,4 +48,9 @@
   			BOARD_NUM = #{boardNum}
   		</where>
   	</select> -->
+  	
+  	<select id="list" resultType="NoticeVO">
+  		SELECT * FROM NOTICE
+  		ORDER BY BOARD_NUM
+  	</select>
   </mapper>

@@ -1,5 +1,7 @@
 package com.winter.app.board;
 
+import java.util.List;
+
 public interface BoardDAO {
 	// insert
 	public int insert(BoardVO boardVO) throws Exception;
@@ -9,4 +11,6 @@ public interface BoardDAO {
 	public int delete(BoardVO boardVO) throws Exception;
 	// selectOne
 	public BoardVO detail(BoardVO boardVO) throws Exception;
+	// selectAll
+	public List<BoardVO> list() throws Exception;
 }
