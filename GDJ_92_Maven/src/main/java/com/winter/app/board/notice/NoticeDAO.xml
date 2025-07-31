@@ -30,4 +30,22 @@
   			BOARD_NUM = #{boardNum}
   		</where>
   	</delete>
+  	
+  	<!-- .propertis에 mybatis.configuration.map-underscore-to-camel-case=true 설정해주기 전에는 동작하지 않음 -->
+   	<select id="detail" parameterType="NoticeVO" resultType="NoticeVO">
+  		SELECT * FROM NOTICE
+  		<where>
+  			BOARD_NUM = #{boardNum}
+  		</where>
+  	</select>
+  	
+  	<!-- .propertis에 mybatis.configuration.map-underscore-to-camel-case=true 설정해주기 전에는 
+  		컬럼의 Alias를 camelCase로 일일이 지정해주어야 함 -->
+<!--    	<select id="detail" parameterType="NoticeVO" resultType="NoticeVO">
+  		SELECT BOARD_TITLE boardTitle
+  		FROM NOTICE
+  		<where>
+  			BOARD_NUM = #{boardNum}
+  		</where>
+  	</select> -->
   </mapper>

@@ -1,12 +1,16 @@
 package com.winter.app.board.notice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootTest // 객체를 만들면서 테스트용임을 알리는 어노테이션
+@Slf4j
 class NoticeDAOTest {
 	@Autowired
 	private NoticeDAO noticeDAO;
@@ -20,14 +24,14 @@ class NoticeDAOTest {
 		int result = noticeDAO.insert(noticeVO);
 		
 		// 단정문
-//		assertEquals(1, result); // Error: 0, Failures: 0
-		assertEquals(0, result); // Error: 0, Failures: 1
+		assertEquals(1, result); // Error: 0, Failures: 0
+//		assertEquals(0, result); // Error: 0, Failures: 1
 	}
 	
 	@Test
 	void updateTest() throws Exception {
 		NoticeVO noticeVO = new NoticeVO();
-		noticeVO.setBoardNum(1L);
+		noticeVO.setBoardNum(2L);
 		noticeVO.setBoardTitle("title4");
 		noticeVO.setBoardContents("contents4");
 		int result = noticeDAO.update(noticeVO);
@@ -45,6 +49,19 @@ class NoticeDAOTest {
 		// 단정문
 //		assertEquals(1, result);
 		assertEquals(0, result);
+	}
+	
+	@Test
+	void detailTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardNum(2L);
+		NoticeVO result = (NoticeVO) noticeDAO.detail(noticeVO);
+		
+		// 로그
+		log.info("result: {}", result); // result를 {} 안에서 찍겠다는 뜻
+		
+		// 단정문
+		assertNotNull(result);
 	}
 
 }
