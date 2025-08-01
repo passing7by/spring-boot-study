@@ -22,7 +22,7 @@ for(a of actionEls1) {
 		console.log(kind);
 		
 		if(kind === 'd') {
-			frm.setAttribute('action', 'POST')
+			frm.setAttribute('method', 'POST')
 			frm.setAttribute('action', './delete');
 			frm.submit();
 		} else {

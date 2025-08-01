@@ -36,4 +36,9 @@ public class NoticeService implements BoardService {
 	public int update(BoardVO boardVO) throws Exception {
 		return noticeDAO.update(boardVO);
 	}
+	
+	@Override
+	public int delete(BoardVO boardVO) throws Exception {
+		return noticeDAO.delete(boardVO);
+	}
 }

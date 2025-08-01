@@ -1,5 +1,6 @@
 package com.winter.app.board.notice;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,26 @@ public class NoticeController {
 		model.addAttribute("url", url);
 		
 //		return "redirect:./detail?boardNum=" + boardVO.getBoardNum();
+		return "commons/result";
+	}
+	
+	@PostMapping("delete")
+	public String delete(BoardVO boardVO, Model model) throws Exception {
+		int result = noticeService.delete(boardVO);
+		String msg = "삭제 실패";
+		
+		if(result != 0) {
+			System.out.println("notice/delete: 성공");
+			msg = "삭제 성공";
+		} else {
+			System.out.println("notice/delete: 실패");
+		}
+		
+		String url = "./list";
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
 		return "commons/result";
 	}
 }
