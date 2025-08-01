@@ -53,4 +53,9 @@
   		SELECT * FROM NOTICE
   		ORDER BY BOARD_NUM
   	</select>
+  	
+  	<insert id="add" parameterType="NoticeVO">
+  		INSERT INTO NOTICE (BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT)
+		VALUES (#{boardTitle}, #{boardContents}, #{boardWriter}, now(), 0)
+  	</insert>
   </mapper>

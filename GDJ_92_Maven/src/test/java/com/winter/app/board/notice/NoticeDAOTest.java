@@ -78,5 +78,16 @@ class NoticeDAOTest {
 		
 		assertTrue(result.size() > 0);
 	}
+	
+	@Test
+	void addTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardContents("test contents");
+		noticeVO.setBoardTitle("test title");
+		noticeVO.setBoardWriter("test writer");
+		int result = noticeDAO.add(noticeVO);
+		
+		assertEquals(1, result);
+	}
 
 }

@@ -13,4 +13,6 @@ public interface BoardDAO {
 	public BoardVO detail(BoardVO boardVO) throws Exception;
 	// selectAll
 	public List<BoardVO> list() throws Exception;
+	// add
+	public int add(BoardVO boardVO) throws Exception;
 }

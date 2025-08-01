@@ -1,0 +1,63 @@
+/**
+ * 
+ */
+
+// jsp에 연결되었나 확인
+console.log('detail');
+
+const actionEls1 = document.getElementsByClassName('action'); // 유사배열을 반환(배열X) => 배열에 사용할 수 있는 메서드를 사용할 수 없음
+const actionEls2 = document.querySelectorAll('.action'); // 배열 반환 => 배열에 사용할 수 있는 메서드를 사용할 수 있음
+
+// js 에서의 반복문들...
+// for(초기식;조건식;증감식)
+// for(a of actionEls1)
+// for in
+// foreach
+
+const frm = document.querySelector('#frm');
+
+for(a of actionEls1) {
+	a.addEventListener("click", (e) => {
+		let kind = e.target.getAttribute("data-kind");
+		console.log(kind);
+		
+		if(kind === 'd') {
+			frm.setAttribute('action', 'POST')
+			frm.setAttribute('action', './delete');
+			frm.submit();
+		} else {
+			frm.setAttribute('action', './update');
+			frm.submit();
+		}
+	});
+}
+
+/*for(a of actionEls1) {
+	a.addEventListener("click", function() {
+		let kind = this.getAttribute("data-kind");
+		console.log(kind);
+	});
+}*/
+
+/*actionEls2.forEach(function(el) {
+	el.addEventListener('click', function() {
+		console.log('detail click');
+		
+		const kind = el.getAttribute('data-kind');
+		
+		if(kind){
+			switch(kind) {
+				case 'u':
+					console.log('u');
+					break;
+				case 'd':
+					console.log('d');
+					break;
+				default:
+					console.log('another');
+			}
+		} else {
+			console.log('data-kind 속성 없음');
+		}
+	});
+});*/
