@@ -13,6 +13,7 @@
   		<result column="product_contents" property="productContents"/>
   		<result column="product_date" property="productDate"/>
   		<result column="product_rate" property="productRate"/>
+  		<result column="kind_num" property="kindNum"/>
   	<!-- 1:1 -->
   		<association property="productKindVO" javaType="ProductKindVO">
   			<!-- kindNum이 두 개가 되는데, 두 개 중 하나는 생략 가능 -->

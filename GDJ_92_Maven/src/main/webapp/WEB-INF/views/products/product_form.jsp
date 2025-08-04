@@ -29,9 +29,9 @@
 									<div class="mb-3">
 										<label for="kindNum" class="form-label">kindName</label>
 										<select class="form-control" id="kindNum" name="kindNum">
-											<option value="1">예금</option>
-											<option value="2">적금</option>
-											<option value="3">대출</option>
+											<option value="1" ${vo.kindNum eq '1' ? 'selected' : ''}>예금</option>
+											<option value="2" ${vo.kindNum eq '2' ? 'selected' : ''}>적금</option>
+											<option value="3" ${vo.kindNum eq '3' ? 'selected' : ''}>대출</option>
 										</select>
 									</div>
 									<div class="mb-3">
@@ -39,12 +39,16 @@
 										<input type="text" class="form-control" id="productName" name="productName"  value="${vo.productName}">
 									</div>
 									<div class="mb-3">
-										<label for="productRate" class="form-label">Rate</label>
+										<label for="productRate" class="form-label">ProductRate</label>
 										<input type="number" class="form-control" id="productRate" name="productRate" value="${vo.productRate}">
 									</div>
 									<div class="mb-3">
-										<label for="productContents" class="form-label">Contents</label>
+										<label for="productContents" class="form-label">ProductContents</label>
 										<textarea class="form-control" id="productContents" rows="10" name="productContents">${vo.productContents}</textarea>
+									</div>
+									<div class="mb-3">
+										<label for="productDate" class="form-label">ProductDate</label>
+										<input type="date" class="form-control" id="productDate" name="productDate" value="${vo.productDate}">
 									</div>
 									
 									<button type="submit" class="btn btn-primary">Submit</button>

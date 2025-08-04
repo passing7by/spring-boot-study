@@ -70,6 +70,8 @@ public class ProductController {
 		ProductVO result = productService.detail(productVO);
 		model.addAttribute("vo", result);
 		
+		System.out.println(result);
+		
 		System.out.println("products/update - Get");
 		
 		return "products/product_form";
