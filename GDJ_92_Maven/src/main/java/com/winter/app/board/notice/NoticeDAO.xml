@@ -51,7 +51,7 @@
   	
   	<select id="list" resultType="NoticeVO">
   		SELECT * FROM NOTICE
-  		ORDER BY BOARD_NUM
+  		ORDER BY BOARD_NUM DESC
   	</select>
   	
   	<insert id="add" parameterType="NoticeVO">
