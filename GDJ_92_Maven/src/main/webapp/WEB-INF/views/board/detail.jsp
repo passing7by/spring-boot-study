@@ -18,26 +18,31 @@
 				  	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
 				  	<div class="container-fluid">
 				  		<!-- page contents 내용 시작 -->
-				  		<h1>Notice Detail</h1>
-				  		<div class="card shadow mb-4">
-				  			<div class="card-header py-3">
-				  				<h6 class="m-0 font-weight-bold text-primary">${NoticeVO.boardTitle}</h6>
-				  			</div>
-				  			<div class="card-body">
-								<p>${NoticeVO.boardHit}</p>
-								<p>${NoticeVO.boardDate}</p>
-								<p>${NoticeVO.boardWriter}</p>
-								<p>${NoticeVO.boardContents}</p>
-							</div>
-				  		</div>
-				  		
-				  		<div>
-				  			<form id="frm">
-				  				<input type="hidden" name="boardNum" value="${NoticeVO.boardNum}">
-				  			</form>
-				  			
-				  			<button class="btn btn-success action" data-kind="u">Update</button>
-				  			<button class="btn btn-danger action" data-kind="d">Delete</button>
+				  		<div class="col-md-8 offset-md-2">
+					  		<h1>Detail</h1>
+					  		<div class="card shadow mb-4">
+					  			<div class="card-header py-3">
+					  				<h5 class="m-0 font-weight-bold text-primary">제목: ${vo.boardTitle}</h5>
+					  			</div>
+					  			<div class="card-body">
+									<span>조회수: ${vo.boardHit}</span>
+									<span> | </span>
+									<span>작성일: ${vo.boardDate}</span>
+									<p>작성자: ${vo.boardWriter}</p>
+									<hr>
+									<p>${vo.boardContents}</p>
+								</div>
+					  		</div>
+
+					  		<div>
+					  			<form id="frm">
+					  				<input type="hidden" name="boardNum" value="${vo.boardNum}">
+					  			</form>
+					  			
+					  			<button class="btn btn-success action" data-kind="u">Update</button>
+					  			<button class="btn btn-danger action" data-kind="d">Delete</button>
+					  			<button class="btn btn-primary action" data-kind="r">Reply</button>
+					  		</div>
 				  		</div>
 				  		<!-- page contents 내용 끝 -->
 				  	</div>

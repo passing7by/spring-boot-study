@@ -18,8 +18,8 @@
                 	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
-                		<h1>Notice List</h1>
                 		<div class="row col-md-8 offset-md-2">
+	                		<h1>List</h1>
                 			<table class="table table-hover">
                 				<thead>
                 					<tr>
@@ -31,13 +31,24 @@
                 					</tr>
                 				</thead>
                 				<tbody>
-                					<c:forEach items="${list}" var="NoticeVO">
+                					<c:forEach items="${list}" var="vo">
 	                					<tr>
-	                						<td>${NoticeVO.boardNum}</td>
-	                						<td><a href="./detail?boardNum=${NoticeVO.boardNum}">${NoticeVO.boardTitle}</a></td>
-	                						<td>${NoticeVO.boardWriter}</td>
-	                						<td>${NoticeVO.boardDate}</td>
-	                						<td>${NoticeVO.boardHit}</td>
+	                						<td>${vo.boardNum}</td>
+	                						<td>
+	                							<!-- Notice 기능에서는 boardDepth가 없어서 예외 발생 => 예외가 발생할 수 있는 태그를 catch로 감싸서 예외처리 -->
+	                							<c:catch>
+		                							<c:forEach begin="2" end="${vo.boardDepth}">
+		                							&nbsp;&nbsp;
+		                							</c:forEach>
+		                							<c:if test="${vo.boardDepth > 0}">
+		                							ㄴ
+		                							</c:if>
+	                							</c:catch>
+	                							<a href="./detail?boardNum=${vo.boardNum}">${vo.boardTitle}</a>
+                							</td>
+	                						<td>${vo.boardWriter}</td>
+	                						<td>${vo.boardDate}</td>
+	                						<td>${vo.boardHit}</td>
 	                					</tr>
                 					</c:forEach>
                 				</tbody>

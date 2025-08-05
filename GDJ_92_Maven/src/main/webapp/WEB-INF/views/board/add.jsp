@@ -23,18 +23,18 @@
                 			<div class="card-body">
 								<form method="post">
 	                			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
-	                				<input type="hidden" name="boardNum" value="${NoticeVO.boardNum}">
+	                				<input type="hidden" name="boardNum" value="${vo.boardNum}">
 									<div class="mb-3">
 										<label for="boardWriter" class="form-label">Writer</label>
-										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${NoticeVO.boardWriter}">
+										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${vo.boardWriter}">
 									</div>
 									<div class="mb-3">
 										<label for="boardTitle" class="form-label">Title</label>
-										<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${NoticeVO.boardTitle}">
+										<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${vo.boardTitle}">
 									</div>
 									<div class="mb-3">
 										<label for="boardContents" class="form-label">Contents</label>
-										<textarea class="form-control" id="boardContents" rows="10" name="boardContents">${NoticeVO.boardContents}</textarea>
+										<textarea class="form-control" id="boardContents" rows="10" name="boardContents">${vo.boardContents}</textarea>
 									</div>
 									<button type="submit" class="btn btn-primary">Submit</button>
 								</form>
