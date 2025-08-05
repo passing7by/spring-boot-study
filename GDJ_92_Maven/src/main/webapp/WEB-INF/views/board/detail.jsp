@@ -19,7 +19,7 @@
 				  	<div class="container-fluid">
 				  		<!-- page contents 내용 시작 -->
 				  		<div class="col-md-8 offset-md-2">
-					  		<h1>Detail</h1>
+					  		<h1 style="text-transform: capitalize">${board} Detail</h1>
 					  		<div class="card shadow mb-4">
 					  			<div class="card-header py-3">
 					  				<h5 class="m-0 font-weight-bold text-primary">제목: ${vo.boardTitle}</h5>
@@ -41,7 +41,9 @@
 					  			
 					  			<button class="btn btn-success action" data-kind="u">Update</button>
 					  			<button class="btn btn-danger action" data-kind="d">Delete</button>
-					  			<button class="btn btn-primary action" data-kind="r">Reply</button>
+					  			<c:if test="${board ne 'notice'}">
+					  				<button class="btn btn-primary action" data-kind="r">Reply</button>
+					  			</c:if>
 					  		</div>
 				  		</div>
 				  		<!-- page contents 내용 끝 -->

@@ -1,9 +1,10 @@
 package com.winter.app.board.qna;
-import com.winter.app.board.notice.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,17 +13,21 @@ import com.winter.app.board.BoardVO;
 @Controller
 @RequestMapping(value = "/qna/*")
 public class QnaController {
-
-    private final NoticeService noticeService;
 	@Autowired
 	private QnaService qnaService;
+	
+	@Value("${board.qna}")
+	private String name;
 
-    QnaController(NoticeService noticeService) {
-        this.noticeService = noticeService;
-    }
+	// 이 코드는 controller 안의 모든 메서드가 실행될 때마다 같이 실행됨
+	@ModelAttribute("board")
+	public String getBoard() {
+		return name;
+	}
 	
 	@GetMapping("list")
 	public String list(Model model) throws Exception {
+//		model.addAttribute("board", "Q&A");
 		model.addAttribute("list", qnaService.list());
 		
 		System.out.println("/qna/list");

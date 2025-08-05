@@ -19,7 +19,7 @@
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
                 		<div class="row col-md-8 offset-md-2">
-	                		<h1>List</h1>
+	                		<h1 style="text-transform: capitalize">${board} List</h1>
                 			<table class="table table-hover">
                 				<thead>
                 					<tr>
