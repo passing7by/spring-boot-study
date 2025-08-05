@@ -1,6 +1,5 @@
 package com.winter.app.board.notice;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.winter.app.board.BoardVO;
 
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping(value = "/notice/*")
@@ -31,7 +29,7 @@ public class NoticeController {
 //	}
 	
 	@GetMapping("list")
-	public void list(Model model) throws Exception {
+	public String list(Model model) throws Exception {
 		List<BoardVO> list = noticeService.list();
 		
 		model.addAttribute("list", list);
@@ -39,22 +37,27 @@ public class NoticeController {
 		System.out.println("notice/list");
 		
 		// return 해주지 않으면 url 경로를 보고 jsp를 찾아감
+		return "board/list";
 	}
 	
 	@GetMapping("detail")
-	public void detail(BoardVO boardVO, Model model) throws Exception {
+	public String detail(BoardVO boardVO, Model model) throws Exception {
 		NoticeVO noticeVO = (NoticeVO) noticeService.detail(boardVO);
 		
 		model.addAttribute("NoticeVO", noticeVO);
 		
 		System.out.println("notice/detail");
+		
+		return "board/detail";
 	}
 	
 	@GetMapping("add")
-	public void add() throws Exception {
+	public String add() throws Exception {
 		// 페이지 이동만 수행
 		
 		System.out.println("notice/add");
+		
+		return "board/add";
 	}
 	
 //	@PostMapping("add")
@@ -94,7 +97,7 @@ public class NoticeController {
 		
 		System.out.println("notice/update");
 		
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("update")
