@@ -49,9 +49,14 @@
   		</where>
   	</select> -->
   	
-  	<select id="list" resultType="NoticeVO">
+  	<select id="list" resultType="NoticeVO" parameterType="Pager">
   		SELECT * FROM NOTICE
   		ORDER BY BOARD_NUM DESC
+  		LIMIT #{startIndex}, #{endIndex}
+  	</select>
+  	
+  	<select id="getTotalCount" resultType="Long">
+  		SELECT COUNT(BOARD_NUM) FROM NOTICE
   	</select>
   	
   	<insert id="add" parameterType="NoticeVO">

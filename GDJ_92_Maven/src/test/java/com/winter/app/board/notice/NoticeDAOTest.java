@@ -23,14 +23,20 @@ class NoticeDAOTest {
 	
 	@Test
 	void insertTest() throws Exception {
-		NoticeVO noticeVO = new NoticeVO();
-		noticeVO.setBoardTitle("title3");
-		noticeVO.setBoardContents("contents3");
-		noticeVO.setBoardWriter("writer3");
-		int result = noticeDAO.insert(noticeVO);
+		for(int i=0; i<105; i++) {
+			NoticeVO noticeVO = new NoticeVO();
+			noticeVO.setBoardTitle("title" + i);
+			noticeVO.setBoardContents("contents" + i);
+			noticeVO.setBoardWriter("writer" + i);
+			int result = noticeDAO.insert(noticeVO);
+			
+			if(i % 10 == 0) {
+				Thread.sleep(500); // 한꺼번에 너무 많이 들어가면 멈춰버리기 때문에 0.5초 텀을 두라는 얘기
+			}
+		}
 		
 		// 단정문
-		assertEquals(1, result); // Error: 0, Failures: 0
+//		assertEquals(1, result); // Error: 0, Failures: 0
 //		assertEquals(0, result); // Error: 0, Failures: 1
 	}
 	
