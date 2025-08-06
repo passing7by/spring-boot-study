@@ -5,12 +5,34 @@
   
   <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성해야 함 -->
   <mapper namespace="com.winter.app.board.notice.NoticeDAO">
+   	<resultMap type="NoticeVO" id="detailResult">
+  		<id column="BOARD_NUM" property="boardNum"/>
+  		
+  		<result column="BOARD_TITLE" property="boardTitle"/>
+  		<result column="BOARD_CONTENTS" property="boardContents"/>
+  		<result column="BOARD_WRITER" property="boardWriter"/>
+  		<result column="BOARD_DATE" property="boardDate"/>
+  		<result column="BOARD_HIT" property="boardHit"/>
+  		
+  		<association property="boardFileVO" javaType="BoardFileVO">
+  			<id column="FILE_NUM" property="fileNum"/>
+  			
+  			<result column="ORI_NAME" property="oriName"/>
+  			<result column="SAVE_NAME" property="saveName"/>
+  		</association>
+  	</resultMap>
+  
   	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
   	
-  	<insert id="insert" parameterType="NoticeVO">
+  	<insert id="add" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNum">
   		INSERT INTO NOTICE (BOARD_NUM, BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT)
   		VALUES
   		(NULL, #{boardTitle}, #{boardContents}, #{boardWriter}, now(), 0)
+  	</insert>
+  	
+  	<insert id="addFile" parameterType="BoardFileVO">
+	  	INSERT INTO NOTICEFILES (ORI_NAME, SAVE_NAME, BOARD_NUM)
+		VALUES (#{oriName}, #{saveName}, #{boardNum});
   	</insert>
   	
   	<update id="update" parameterType="NoticeVO">
@@ -32,11 +54,13 @@
   	</delete>
   	
   	<!-- .propertis에 mybatis.configuration.map-underscore-to-camel-case=true 설정해주기 전에는 동작하지 않음 -->
-   	<select id="detail" parameterType="NoticeVO" resultType="NoticeVO">
-  		SELECT * FROM NOTICE
-  		<where>
-  			BOARD_NUM = #{boardNum}
-  		</where>
+   	<select id="detail" parameterType="NoticeVO" resultMap="detailResult">
+  		SELECT N.*, NF.FILE_NUM, NF.ORI_NAME, NF.SAVE_NAME
+		FROM NOTICE N
+		LEFT JOIN NOTICEFILES NF ON N.BOARD_NUM = NF.BOARD_NUM
+		<where>
+			N.BOARD_NUM = #{boardNum};
+		</where>
   	</select>
   	
   	<!-- .propertis에 mybatis.configuration.map-underscore-to-camel-case=true 설정해주기 전에는 
@@ -59,8 +83,7 @@
   		SELECT COUNT(BOARD_NUM) FROM NOTICE
   	</select>
   	
-  	<insert id="add" parameterType="NoticeVO">
-  		INSERT INTO NOTICE (BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT)
-		VALUES (#{boardTitle}, #{boardContents}, #{boardWriter}, now(), 0)
-  	</insert>
+
+  	
+
   </mapper>

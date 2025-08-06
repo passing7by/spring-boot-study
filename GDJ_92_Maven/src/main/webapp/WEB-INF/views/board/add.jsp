@@ -21,7 +21,7 @@
                 		<h1>Notice Add</h1>
                 		<div class="card shadow mb-4">
                 			<div class="card-body">
-								<form method="post">
+								<form method="post" enctype="multipart/form-data">
 	                			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
 	                				<input type="hidden" name="boardNum" value="${vo.boardNum}">
 									<div class="mb-3">
@@ -36,6 +36,10 @@
 										<label for="boardContents" class="form-label">Contents</label>
 										<textarea class="form-control" id="boardContents" rows="10" name="boardContents">${vo.boardContents}</textarea>
 									</div>
+									<div class="mb-3">
+										<input type="file" name="attaches">
+									</div>
+									
 									<button type="submit" class="btn btn-primary">Submit</button>
 								</form>
                 			</div>

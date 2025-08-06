@@ -10,19 +10,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardVO;
+import com.winter.app.board.qna.QnaController;
 import com.winter.app.commons.Pager;
+import com.winter.app.controller.HomeController;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
 @RequestMapping(value = "/notice/*")
+@Slf4j
 public class NoticeController {
+
+    private final HomeController homeController;
 	@Autowired
 	private NoticeService noticeService;
 	
 	@Value("${board.notice}")
 	private String name;
+
+    NoticeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 	
 	// 이 코드는 controller 안의 모든 메서드가 실행될 때마다 같이 실행됨
 	@ModelAttribute("board")
@@ -42,10 +53,11 @@ public class NoticeController {
 	
 	@GetMapping("list")
 	public String list(Pager pager, Model model) throws Exception {
+	// Pager pager 앞에는 @ModelAttribute가 생략되어 있음 => 개발자가 model.addAttribute("pager", pager) 하지 않아도 알아서 해줌
 		List<BoardVO> list = noticeService.list(pager);
 		
 //		model.addAttribute("board", "Notice");
-		model.addAttribute("pager", pager);
+//		model.addAttribute("pager", pager);
 		model.addAttribute("list", list);
 		
 		System.out.println("notice/list");
@@ -90,9 +102,15 @@ public class NoticeController {
 //	}
 	
 	@PostMapping("add")
-	public String add(BoardVO boardVO) throws Exception {
+	public String add(BoardVO boardVO, MultipartFile attaches) throws Exception {
+		System.out.println("controller: " + boardVO);
+		
+		log.info("{}", attaches.getContentType());
+		log.info("{}", attaches.getOriginalFilename());
+		log.info("{}", attaches.getSize()); // byte 단위로 표시됨
+		
 		// DB에 데이터 삽입
-		int result = noticeService.add(boardVO);
+		int result = noticeService.add(boardVO, attaches);
 		
 		if(result != 0) {
 			System.out.println("notice/add: 성공");

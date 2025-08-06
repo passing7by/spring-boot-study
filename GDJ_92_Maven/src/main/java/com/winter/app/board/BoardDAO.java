@@ -2,6 +2,8 @@ package com.winter.app.board;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.winter.app.commons.Pager;
 
 public interface BoardDAO {
@@ -19,5 +21,7 @@ public interface BoardDAO {
 	public int add(BoardVO boardVO) throws Exception;
 	// 
 	public Long getTotalCount() throws Exception;
+	// file 메타데이터 저장
+	public int addFile(BoardFileVO boardFileVO) throws Exception;
 	
 }

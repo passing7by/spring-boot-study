@@ -57,9 +57,8 @@
                 			<div>
 								<nav aria-label="Page navigation example">
 									<ul class="pagination">
-										
 										<li class="page-item">
-											<a class="page-link" href="./list?pageNum=${pager.startNum -1}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+											<a class="page-link" href="./list?pageNum=${pager.startNum}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 										</li>
 										
 										<c:forEach begin="${pager.startNum}" end="${pager.endNum}" var="i">

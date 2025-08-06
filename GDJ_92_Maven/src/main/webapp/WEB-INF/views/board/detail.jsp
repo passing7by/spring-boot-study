@@ -24,6 +24,11 @@
 					  			<div class="card-header py-3">
 					  				<h5 class="m-0 font-weight-bold text-primary">제목: ${vo.boardTitle}</h5>
 					  			</div>
+					  			<div>
+					  				<p>${vo.boardFileVO.fileNum}</p>
+					  				<p><a href="/files/${board}/${vo.boardFileVO.saveName}">${vo.boardFileVO.oriName}</a></p>
+					  				<p>${vo.boardFileVO.saveName}</p>
+					  			</div>
 					  			<div class="card-body">
 									<span>조회수: ${vo.boardHit}</span>
 									<span> | </span>
