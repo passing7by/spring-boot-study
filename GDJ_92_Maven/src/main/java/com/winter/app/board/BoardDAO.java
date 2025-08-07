@@ -20,7 +20,7 @@ public interface BoardDAO {
 	// add
 	public int add(BoardVO boardVO) throws Exception;
 	// 
-	public Long getTotalCount() throws Exception;
+	public Long getTotalCount(Pager pager) throws Exception;
 	// file 메타데이터 저장
 	public int addFile(BoardFileVO boardFileVO) throws Exception;
 	

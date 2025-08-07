@@ -24,6 +24,37 @@
   
   	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
   	
+<!--   	<sql id="search">
+  		<where>
+	  		<if test="kind == 'k1'">
+	  			BOARD_TITLE
+	  		</if>	
+	  		<if test="kind == 'k2'">
+	  			BOARD_CONTENTS
+	  		</if>	
+	  		<if test="kind == 'k3'">
+	  			BOARD_WRITER
+	  		</if>	
+  			LIKE CONCAT('%', #{}, '%')
+  		</where>
+  	</sql> -->
+  	<sql id="search">
+  		<where>
+	  		<choose>
+	  			<when test="kind == 'k1'">
+	  				BOARD_TITLE
+	  			</when>
+	  			<when test="kind == 'k2'">
+	  				BOARD_CONTENTS
+	  			</when>
+	  			<otherwise>
+	  				BOARD_WRITER
+	  			</otherwise>
+	  		</choose>
+	  		LIKE CONCAT('%', #{keyword}, '%')
+  		</where>
+  	</sql>
+  	
   	<insert id="add" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNum">
   		INSERT INTO NOTICE (BOARD_NUM, BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT)
   		VALUES
@@ -75,12 +106,14 @@
   	
   	<select id="list" resultType="NoticeVO" parameterType="Pager">
   		SELECT * FROM NOTICE
+  		<include refid="search"/>
   		ORDER BY BOARD_NUM DESC
   		LIMIT #{startIndex}, #{endIndex}
   	</select>
   	
-  	<select id="getTotalCount" resultType="Long">
+  	<select id="getTotalCount" resultType="Long" parameterType="Pager">
   		SELECT COUNT(BOARD_NUM) FROM NOTICE
+  		<include refid="search"/>
   	</select>
   	
 

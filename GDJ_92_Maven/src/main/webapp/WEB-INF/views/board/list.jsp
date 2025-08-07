@@ -18,8 +18,24 @@
                 	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
-                		<div class="row col-md-8 offset-md-2">
+                		<div class="col-md-8 offset-md-2">
 	                		<h1 style="text-transform: capitalize">${board} List</h1>
+	                		
+	                		<div>
+	                			<form method="get" id="searchForm">
+									<div class="input-group mb-3">
+										<input type="hidden" id="pageNum" name="pageNum">
+										<select class="form-select" name="kind" id="inputGroupSelect02">
+											<option value="k1" ${pager.kind eq 'k1' ? 'selected' : ''}>Title</option>
+											<option value="k2" ${pager.kind eq 'k2' ? 'selected' : ''}>Contents</option>
+											<option value="k3" ${pager.kind eq 'k3' ? 'selected' : ''}>Writer</option>
+										</select>
+										<input type="text" class="form-control" value="${pager.keyword}" name="keyword">
+										<button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
+									</div>
+								</form>
+							</div>
+	                		
                 			<table class="table table-hover">
                 				<thead>
                 					<tr>
@@ -54,26 +70,28 @@
                 				</tbody>
                 			</table>
                 			
-                			<div>
-								<nav aria-label="Page navigation example">
-									<ul class="pagination">
-										<li class="page-item">
-											<a class="page-link" href="./list?pageNum=${pager.startNum}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-										</li>
-										
-										<c:forEach begin="${pager.startNum}" end="${pager.endNum}" var="i">
-											<li class="page-item"><a class="page-link" href="./list?pageNum=${i}">${i}</a></li>
-										</c:forEach>
-										
-										<li class="page-item">
-											<a class="page-link" href="./list?pageNum=${pager.endNum + 1}" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
-										</li>
-									</ul>
-								</nav>
-							</div>
-                			
-                			<div>
-                				<a class="btn btn-outline-success" href="./add" role="button">글쓰기</a>
+                			<div class="row">
+	                			<div>
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item">
+												<a class="page-link pn" data-pn="${pager.startNum - 1}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+											</li>
+											
+											<c:forEach begin="${pager.startNum}" end="${pager.endNum}" var="i">
+												<li class="page-item"><a class="page-link pn" data-pn="${i}">${i}</a></li>
+											</c:forEach>
+											
+											<li class="page-item">
+												<a class="page-link pn" data-pn="${pager.endNum + 1}" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+								
+	                			<div>
+	                				<a class="btn btn-outline-success" href="./add" role="button">글쓰기</a>
+	                			</div>
                 			</div>
                 		</div>
                 		<!-- page contents 내용 끝 -->
@@ -84,5 +102,7 @@
 		</div>
 		
 		<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+		
+		<script type="text/javascript" src="/js/board/board_list.js"></script>
 	</body>
 </html>

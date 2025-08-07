@@ -20,8 +20,15 @@ public class Pager {
 	// pageNum은 화면에서 보내는 파라미터 값을 받아서 사용할 수도있기 때문에 필드로 선언
 	private Long pageNum;
 	
+	// 검색 종류
+	private String kind;
+	//검색어
+	private String keyword;
+	
+	// 총 페이지 수
 	private Long totalPage;
 	
+	// 한 블럭당 시작 페이지번호와 끝 페이지 번호
 	private Long startNum;
 	private Long endNum;
 	
@@ -62,6 +69,14 @@ public class Pager {
 		}
 		
 		this.makePage();
+	}
+	
+	public String getkeyword() {
+		if(this.keyword == null) {
+			this.keyword = "";
+		}
+		
+		return this.keyword;
 	}
 
 	public Long getPerPage() {

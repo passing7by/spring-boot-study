@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardVO;
-import com.winter.app.board.qna.QnaController;
 import com.winter.app.commons.Pager;
 import com.winter.app.controller.HomeController;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class NoticeController {
 
-    private final HomeController homeController;
 	@Autowired
 	private NoticeService noticeService;
 	
 	@Value("${board.notice}")
 	private String name;
-
-    NoticeController(HomeController homeController) {
-        this.homeController = homeController;
-    }
 	
 	// 이 코드는 controller 안의 모든 메서드가 실행될 때마다 같이 실행됨
 	@ModelAttribute("board")
@@ -103,6 +97,8 @@ public class NoticeController {
 	
 	@PostMapping("add")
 	public String add(BoardVO boardVO, MultipartFile attaches) throws Exception {
+		// 현재는 첨부파일 없이 글을 등록했을 때, attaches가 null인 상태로 noticeService.add()가 실행됨
+		
 		System.out.println("controller: " + boardVO);
 		
 		log.info("{}", attaches.getContentType());
