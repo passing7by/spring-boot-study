@@ -6,7 +6,44 @@ const btnAdd = document.querySelector('#add');
 const resultDiv = document.querySelector('#result');
 // const btnDels = document.querySelectorAll('del');
 
-let count = 0;
+const deleteFile = document.querySelectorAll('.deleteFile');
+
+// let count = 0;
+let count = result.getAttribute('data-file-count');
+
+//------------------------------------------------------
+deleteFile.forEach((item) => {
+	item.addEventListener('click', function() {
+		// console.log(item);
+		
+    const fileNum = this.getAttribute('data-file-num');
+
+    // fetch, axios
+
+    // get
+    // fetch(`./fileDelete?fileNum=${fileNum}`, {
+    //   method: 'GET'
+    // })
+    // .then(r => r.text()) // 이 줄에서의 r은 지역변수 (이 줄에서 쓰고 사라짐)
+    // .then(r => { // 이때 여기서 r은 위에서 r.text()로 받은 데이터임 (위의 r과 다름)
+    //   console.log(r);
+    // });
+
+    // post
+    let params = new URLSearchParams();
+    params.append('fileNum', fileNum);
+
+    fetch(`./fileDelete`, {
+      method: 'POST',
+      body: params
+    })
+    .then(r => r.json()) // 이 줄에서의 r은 지역변수 (이 줄에서 쓰고 사라짐)
+    .then(r => { // 이때 여기서 r은 위에서 r.text()로 받은 데이터임 (위의 r과 다름)
+      console.log(r);
+    });
+	});
+	
+});
 
 btnAdd.addEventListener('click', function() {
   // resultDiv.innerHTML += 

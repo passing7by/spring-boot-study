@@ -60,7 +60,9 @@
 		                							ㄴ
 		                							</c:if>
 	                							</c:catch>
-	                							<a href="./detail?boardNum=${vo.boardNum}">${vo.boardTitle}</a>
+                								<a href="./detail?boardNum=${vo.boardNum}">
+                									${(vo.boardTitle eq null) or (vo.boardTitle eq '') ? '(제목 없음)' : vo.boardTitle}
+                								</a>
                 							</td>
 	                						<td>${vo.boardWriter}</td>
 	                						<td>${vo.boardDate}</td>
@@ -70,7 +72,7 @@
                 				</tbody>
                 			</table>
                 			
-                			<div class="row">
+                			<div class="row justify-content-between">
 	                			<div>
 									<nav aria-label="Page navigation example">
 										<ul class="pagination">

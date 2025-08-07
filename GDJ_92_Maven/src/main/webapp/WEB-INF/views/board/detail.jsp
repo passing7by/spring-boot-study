@@ -34,7 +34,9 @@
 									<p>${vo.boardContents}</p>
 									<hr>
 									<div>
-						  				<b>첨부파일</b>
+										<c:if test="">
+							  				<b>첨부파일</b>
+										</c:if>
 						  				<c:forEach items="${vo.boardFileVOs}" var="f">
 							  				<p><a href="/files/${board}/${f.saveName}">${f.oriName}</a></p>
 							  				<p>${f.saveName}</p>
