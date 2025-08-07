@@ -96,14 +96,12 @@ public class NoticeController {
 //	}
 	
 	@PostMapping("add")
-	public String add(BoardVO boardVO, MultipartFile attaches) throws Exception {
+	public String add(BoardVO boardVO, MultipartFile[] attaches) throws Exception {
 		// 현재는 첨부파일 없이 글을 등록했을 때, attaches가 null인 상태로 noticeService.add()가 실행됨
-		
-		System.out.println("controller: " + boardVO);
-		
-		log.info("{}", attaches.getContentType());
-		log.info("{}", attaches.getOriginalFilename());
-		log.info("{}", attaches.getSize()); // byte 단위로 표시됨
+
+//		log.info("{}", attaches.getContentType());
+//		log.info("{}", attaches.getOriginalFilename());
+//		log.info("{}", attaches.getSize()); // byte 단위로 표시됨
 		
 		// DB에 데이터 삽입
 		int result = noticeService.add(boardVO, attaches);

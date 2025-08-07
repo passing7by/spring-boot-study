@@ -24,11 +24,7 @@
 					  			<div class="card-header py-3">
 					  				<h5 class="m-0 font-weight-bold text-primary">제목: ${vo.boardTitle}</h5>
 					  			</div>
-					  			<div>
-					  				<p>${vo.boardFileVO.fileNum}</p>
-					  				<p><a href="/files/${board}/${vo.boardFileVO.saveName}">${vo.boardFileVO.oriName}</a></p>
-					  				<p>${vo.boardFileVO.saveName}</p>
-					  			</div>
+
 					  			<div class="card-body">
 									<span>조회수: ${vo.boardHit}</span>
 									<span> | </span>
@@ -36,6 +32,14 @@
 									<p>작성자: ${vo.boardWriter}</p>
 									<hr>
 									<p>${vo.boardContents}</p>
+									<hr>
+									<div>
+						  				<b>첨부파일</b>
+						  				<c:forEach items="${vo.boardFileVOs}" var="f">
+							  				<p><a href="/files/${board}/${f.saveName}">${f.oriName}</a></p>
+							  				<p>${f.saveName}</p>
+						  				</c:forEach>
+						  			</div>
 								</div>
 					  		</div>
 

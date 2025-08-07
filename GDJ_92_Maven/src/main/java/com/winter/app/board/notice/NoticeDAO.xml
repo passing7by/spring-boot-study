@@ -14,12 +14,22 @@
   		<result column="BOARD_DATE" property="boardDate"/>
   		<result column="BOARD_HIT" property="boardHit"/>
   		
-  		<association property="boardFileVO" javaType="BoardFileVO">
+  		<!-- association은 1:1 관계에서만 사용 가능 -->
+<!--   		<association property="boardFileVO" javaType="BoardFileVO">
   			<id column="FILE_NUM" property="fileNum"/>
   			
   			<result column="ORI_NAME" property="oriName"/>
   			<result column="SAVE_NAME" property="saveName"/>
-  		</association>
+  		</association> -->
+  		
+  		<!-- 1:n -->
+  		<!-- ofType: 제네릭 타입을 의미 -->
+  		<collection property="boardFileVOs" javaType="java.util.List" ofType="BoardFileVO">
+  			<id column="FILE_NUM" property="fileNum"/>
+  			
+  			<result column="ORI_NAME" property="oriName"/>
+  			<result column="SAVE_NAME" property="saveName"/>
+  		</collection>
   	</resultMap>
   
   	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
@@ -82,6 +92,10 @@
   		<where>
   			BOARD_NUM = #{boardNum}
   		</where>
+  	</delete>
+  	
+  	<delete id="fileDelete" parameterType="NoticeVO">
+  		DELETE FROM NOTICEFILES WHERE BOARD_NUM = #{boardNum}
   	</delete>
   	
   	<!-- .propertis에 mybatis.configuration.map-underscore-to-camel-case=true 설정해주기 전에는 동작하지 않음 -->

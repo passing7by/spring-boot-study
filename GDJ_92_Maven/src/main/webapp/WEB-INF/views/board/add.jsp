@@ -36,8 +36,15 @@
 										<label for="boardContents" class="form-label">Contents</label>
 										<textarea class="form-control" id="boardContents" rows="10" name="boardContents">${vo.boardContents}</textarea>
 									</div>
-									<div class="mb-3">
-										<input type="file" name="attaches">
+
+									<div>
+										<button class="btn btn-primary mb-3" type="button" id="add">ADD</button>
+									</div>
+
+									<div id="result">
+										<%-- <div class="mb-3">
+											<input type="file" name="attaches">
+										</div> --%>
 									</div>
 									
 									<button type="submit" class="btn btn-primary">Submit</button>
@@ -52,5 +59,6 @@
 		</div>
 		
 		<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+		<script type="text/javascript" src="/js/board/board_add.js"></script>
 	</body>
 </html>

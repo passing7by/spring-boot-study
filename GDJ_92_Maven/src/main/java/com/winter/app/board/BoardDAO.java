@@ -23,5 +23,6 @@ public interface BoardDAO {
 	public Long getTotalCount(Pager pager) throws Exception;
 	// file 메타데이터 저장
 	public int addFile(BoardFileVO boardFileVO) throws Exception;
-	
+	// file 메타데이터 삭제
+	public int fileDelete(BoardVO boardVO) throws Exception;
 }
