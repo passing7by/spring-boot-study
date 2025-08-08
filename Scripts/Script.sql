@@ -1,0 +1,8 @@
+-- 사용자 생성
+CREATE USER user01 IDENTIFIED BY user01
+DEFAULT TABLESPACE users;
+
+-- 권한 부여
+GRANT CONNECT, resource TO user01;
+
+COMMIT;
