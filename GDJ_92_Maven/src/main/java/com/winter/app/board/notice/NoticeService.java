@@ -1,5 +1,6 @@
 package com.winter.app.board.notice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class NoticeService implements BoardService {
 	@Override
 	public List<BoardVO> list(Pager pager) throws Exception {
 		Long totalCount = noticeDAO.getTotalCount(pager);
+		
+		// 검색 결과가 없을 경우 빈 list 전달
+		if(totalCount <= 0) {
+			return new ArrayList<BoardVO>();
+		}
+		
 		pager.makeNum(totalCount);
 		
 		// Pager는 굳이 리턴할 필요 없음
