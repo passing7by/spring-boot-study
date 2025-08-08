@@ -34,3 +34,6 @@ build/
 
 ### maven ###
 .mvn
+
+### My Custom ###
+application-prod.properties
