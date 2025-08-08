@@ -72,6 +72,10 @@
                 				</tbody>
                 			</table>
                 			
+             			    <c:if test="${list.size() <= 0}">
+             						<p>검색 결과가 없습니다.</p>
+             					</c:if>
+                			
                 			<div class="row justify-content-between">
 	                			<div>
 									<nav aria-label="Page navigation example">

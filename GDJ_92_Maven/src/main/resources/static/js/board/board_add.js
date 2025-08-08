@@ -13,10 +13,16 @@ let count = result.getAttribute('data-file-count');
 
 //------------------------------------------------------
 deleteFile.forEach((item) => {
-	item.addEventListener('click', function() {
+  item.addEventListener('click', function() {
+    let flag = confirm('정말 파일을 삭제하시겠습니까?\n삭제 후에는 복구가 불가능합니다.')
+
+    if(!flag) {
+      return;
+    }
+
 		// console.log(item);
 		
-    const fileNum = this.getAttribute('data-file-num');
+    const fileNum = item.getAttribute('data-file-num');
 
     // fetch, axios
 
@@ -33,14 +39,34 @@ deleteFile.forEach((item) => {
     let params = new URLSearchParams();
     params.append('fileNum', fileNum);
 
+    console.log('start');
+
     fetch(`./fileDelete`, {
       method: 'POST',
       body: params
     })
-    .then(r => r.json()) // 이 줄에서의 r은 지역변수 (이 줄에서 쓰고 사라짐)
+    .then(r => r.text()) // 이 줄에서의 r은 지역변수 (이 줄에서 쓰고 사라짐)
     .then(r => { // 이때 여기서 r은 위에서 r.text()로 받은 데이터임 (위의 r과 다름)
-      console.log(r);
+      // console.log(r);
+      // if(r === '1') {
+      //   console.log('삭제 성공');
+      // } else {
+      //   console.log('삭제 실패');
+      // }
+
+      // 앞뒤 공백 무조건 제거하고 사용
+      console.log(r.trim());
+      if(r.trim() === '1') {
+        count--;
+        item.remove();
+
+        console.log('삭제 성공');
+      } else {
+        console.log('삭제 실패');
+      }
     });
+
+    console.log('finish');
 	});
 	
 });

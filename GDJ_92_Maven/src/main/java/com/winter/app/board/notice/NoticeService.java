@@ -49,6 +49,11 @@ public class NoticeService implements BoardService {
 	public int add(BoardVO boardVO, MultipartFile[] attaches) throws Exception {
 		int result = noticeDAO.add(boardVO);
 		
+		// TODO 설명 추가
+		if(attaches == null) {
+			return result;
+		}
+		
 		for(MultipartFile m : attaches) {
 			// 파일이 첨부되지 않았다면 파일 저장 관련 로직을 실행하지 않고 return
 			if(m == null || m.isEmpty()) {
@@ -71,8 +76,32 @@ public class NoticeService implements BoardService {
 	}
 	
 	@Override
-	public int update(BoardVO boardVO) throws Exception {
-		return noticeDAO.update(boardVO);
+	public int update(BoardVO boardVO, MultipartFile[] attaches) throws Exception {
+		// 2. 파일 정보를 FileDB에 저장 (좀 더 생각해보면 이걸 먼저 해야됨...왜 이걸 먼저? 수정 실패하면 실제 파일을 저장하지 않게 하기 위해)
+		int result = noticeDAO.update(boardVO);
+
+		if(attaches == null) {
+			return result;
+		}
+		
+		for(MultipartFile m : attaches) {
+			// 파일이 첨부되지 않았다면 파일 저장 관련 로직을 실행하지 않고 return
+			if(m == null || m.isEmpty()) {
+				continue;
+			}
+			
+			// 1. File을 HDD에 저장
+			String fileName = fileManager.fileSave(upload + board, m);
+			
+			// 2. 저장된 파일의 정보를 DB에 저장
+			BoardFileVO boardFileVO = new BoardFileVO();
+			boardFileVO.setOriName(m.getOriginalFilename());
+			boardFileVO.setSaveName(fileName);
+			boardFileVO.setBoardNum(boardVO.getBoardNum());
+			result = noticeDAO.addFile(boardFileVO);
+		}
+
+		return result;
 	}
 	
 	@Override
@@ -86,5 +115,19 @@ public class NoticeService implements BoardService {
 		noticeDAO.fileDelete(boardVO);
 		
 		return noticeDAO.delete(boardVO);
+	}
+	
+	@Override
+	public int fileDelete(BoardFileVO boardFileVO) throws Exception {
+		// 1. File 조회
+		boardFileVO = noticeDAO.fileDetail(boardFileVO);
+		
+		// 2. File 삭제
+		boolean result = fileManager.fileDelete(upload + board, boardFileVO.getSaveName());
+		
+		// 3. DB 삭제
+		int result2 = noticeDAO.fileDeleteOne(boardFileVO);
+		
+		return result2;
 	}
 }

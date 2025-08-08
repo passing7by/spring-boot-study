@@ -98,11 +98,20 @@
   		DELETE FROM NOTICEFILES WHERE BOARD_NUM = #{boardNum}
   	</delete>
   	
+  	<select id="fileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
+  		SELECT * FROM NOTICEFILES WHERE FILE_NUM = #{fileNum}
+  	</select>
+  	
+  	<!-- TODO: fileDelete를 재활용하는 방법도 고려해보기 -->
+  	<delete id="fileDeleteOne" parameterType="BoardFileVO">
+  		DELETE FROM NOTICEFILES WHERE FILE_NUM = #{fileNum}
+  	</delete>
+  	
   	<!-- .propertis에 mybatis.configuration.map-underscore-to-camel-case=true 설정해주기 전에는 동작하지 않음 -->
    	<select id="detail" parameterType="NoticeVO" resultMap="detailResult">
   		SELECT N.*, NF.FILE_NUM, NF.ORI_NAME, NF.SAVE_NAME
-		FROM NOTICE N
-		LEFT JOIN NOTICEFILES NF ON N.BOARD_NUM = NF.BOARD_NUM
+			FROM NOTICE N
+			LEFT JOIN NOTICEFILES NF ON N.BOARD_NUM = NF.BOARD_NUM
 		<where>
 			N.BOARD_NUM = #{boardNum};
 		</where>

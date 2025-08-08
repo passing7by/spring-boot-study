@@ -25,4 +25,7 @@ public interface BoardDAO {
 	public int addFile(BoardFileVO boardFileVO) throws Exception;
 	// file 메타데이터 삭제
 	public int fileDelete(BoardVO boardVO) throws Exception;
+	// file 메타데이터 조회
+	public BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception;
+	public int fileDeleteOne(BoardFileVO boardFileVO) throws Exception;
 }

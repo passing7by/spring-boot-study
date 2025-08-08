@@ -129,8 +129,8 @@ public class NoticeController {
 	}
 	
 	@PostMapping("update")
-	public String update(BoardVO boardVO, Model model) throws Exception {
-		int result = noticeService.update(boardVO);
+	public String update(BoardVO boardVO, Model model, MultipartFile[] attaches) throws Exception {
+		int result = noticeService.update(boardVO, attaches);
 		String msg = "수정 실패";
 		
 		if(result != 0) {
@@ -182,20 +182,24 @@ public class NoticeController {
 	
 	@PostMapping("fileDelete")
 	@ResponseBody // 응답을 바로 요청시 정한 dataType의 형식으로 내보냄
-	public List<BoardVO> fileDelete(BoardFileVO boardFileVO, Model model) throws Exception {	
-		log.info("================= file delete ===================");
+	public int fileDelete(BoardFileVO boardFileVO, Model model) throws Exception {	
+//		log.info("================= file delete ===================");
+//		
+//		log.info("fileNum: {}", boardFileVO.getFileNum());
 		
-		log.info("fileNum: {}", boardFileVO.getFileNum());
-		
-		model.addAttribute("result", "hello");
-		
+//		model.addAttribute("result", 1);
+//		
 //		return "commons/ajaxResult";
 		
 		// @ResponseBody 를 사용하는 경우
 		// jsp를 안 거치고 바로 응답 (응답 형식은 요청시 정한 dataType의 형식)
-		Pager pager = new Pager();
-		List<BoardVO> list = noticeService.list(pager);
+//		Pager pager = new Pager();
+//		List<BoardVO> list = noticeService.list(pager);
+//		
+//		return list;
 		
-		return list;
+		int result = noticeService.fileDelete(boardFileVO);
+		
+		return result;
 	}
 }

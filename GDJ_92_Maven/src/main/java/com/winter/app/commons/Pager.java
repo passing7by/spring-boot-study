@@ -59,9 +59,11 @@ public class Pager {
 			curBlock++;
 		}
 		
+		// 현재까지 설정된 필드들의 값은 모두 0
+		
 		// 4. 현재 블럭의 시작 페이지 번호와 끝 페이지 번호 계산
-		this.startNum = (curBlock -1) * perBlock + 1;
-		this.endNum = curBlock * perBlock;
+		this.startNum = (curBlock -1) * perBlock + 1; // startNum = (0 - 1) * 5 +1 = -4
+		this.endNum = curBlock * perBlock; // 0
 		
 		// 5. 마지막 블럭일 경우
 		if (curBlock == totalBlock) {

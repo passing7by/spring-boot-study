@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping(value = "/qna/*")
+@Slf4j
 public class QnaController {
 	@Autowired
 	private QnaService qnaService;
@@ -47,8 +48,8 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
-	public String add(BoardVO boardVO, Model model) throws Exception {
-		int result = qnaService.add(boardVO);
+	public String add(BoardVO boardVO, Model model, MultipartFile[] attaches) throws Exception {
+		int result = qnaService.add(boardVO, attaches);
 		String url = "./list";
 		String msg = "등록 실패";
 		

@@ -5,21 +5,72 @@
   
   <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성해야 함 -->
   <mapper namespace="com.winter.app.board.qna.QnaDAO">
+   	<resultMap type="QnaVO" id="detailResult">
+  		<id column="BOARD_NUM" property="boardNum"/>
+  		
+  		<result column="BOARD_TITLE" property="boardTitle"/>
+  		<result column="BOARD_CONTENTS" property="boardContents"/>
+  		<result column="BOARD_WRITER" property="boardWriter"/>
+  		<result column="BOARD_DATE" property="boardDate"/>
+  		<result column="BOARD_HIT" property="boardHit"/>
+  		
+  		<!-- association은 1:1 관계에서만 사용 가능 -->
+<!--   		<association property="boardFileVO" javaType="BoardFileVO">
+  			<id column="FILE_NUM" property="fileNum"/>
+  			
+  			<result column="ORI_NAME" property="oriName"/>
+  			<result column="SAVE_NAME" property="saveName"/>
+  		</association> -->
+  		
+  		<!-- 1:n -->
+  		<!-- ofType: 제네릭 타입을 의미 -->
+  		<collection property="boardFileVOs" javaType="java.util.List" ofType="BoardFileVO">
+  			<id column="FILE_NUM" property="fileNum"/>
+  			
+  			<result column="ORI_NAME" property="oriName"/>
+  			<result column="SAVE_NAME" property="saveName"/>
+  		</collection>
+  	</resultMap>
+  	
+  	<sql id="search">
+  		<where>
+  			<choose>
+  				<when test="kind == 'k1'">
+  					BOARD_TITLE
+  				</when>
+  				<when test="kind == 'k1'">
+  					BOARD_CONTENTS
+  				</when>
+  				<otherwise>
+  					BOARD_WRITER
+  				</otherwise>
+  			</choose>
+  			LIKE CONCAT('%', #{keyword}, '%')
+  		</where>
+  	</sql>
+  	
   	<select id="list" resultType="QnaVO" parameterType="Pager">
   		SELECT * FROM QNA
-		ORDER BY BOARD_REF DESC, BOARD_STEP ASC
-		LIMIT #{startIndex}, #{perPage}
+  		<include refid="search"/>
+			ORDER BY BOARD_REF DESC, BOARD_STEP ASC
+			LIMIT #{startIndex}, #{perPage}
   	</select>
   	
-  	<select id="getTotalCount" resultType="Long">
+  	<select id="getTotalCount" resultType="Long" parameterType="Pager">
   		SELECT COUNT(BOARD_NUM) FROM QNA
+  		<include refid="search"/>
   	</select>
   	
   	<insert id="add" parameterType="QnaVO" useGeneratedKeys="true" keyProperty="boardNum">
   		INSERT INTO QNA 
-		(BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
-		VALUES
-		(#{boardTitle}, #{boardContents}, #{boardWriter}, NOW(), 0, LAST_INSERT_ID(), 0, 0);
+			(BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
+			VALUES
+			(#{boardTitle}, #{boardContents}, #{boardWriter}, NOW(), 0, LAST_INSERT_ID(), 0, 0);
+  	</insert>
+  	
+  	<insert id="addFile" parameterType="BoardFileVO">
+	  	INSERT INTO QNAFILES (ORI_NAME, SAVE_NAME, BOARD_NUM)
+			VALUES (#{oriName}, #{saveName}, #{boardNum});
   	</insert>
   	
   	<update id="refUpdate" parameterType="QnaVO">
@@ -29,9 +80,11 @@
   		</where>
   	</update>
   	
-  	<select id="detail" parameterType="QnaVO" resultType="QnaVO">
-  		SELECT * FROM QNA
-  		WHERE BOARD_NUM = #{boardNum}
+  	<select id="detail" parameterType="QnaVO" resultMap="detailResult">
+  		SELECT Q.*, QF.FILE_NUM, QF.ORI_NAME, QF.SAVE_NAME
+  		FROM QNA Q
+  		LEFT JOIN QNAFILES QF ON Q.BOARD_NUM = QF.BOARD_NUM
+  		WHERE Q.BOARD_NUM = #{boardNum}
   	</select>
   	
   	<update id="replyUpdate" parameterType="QnaVO">

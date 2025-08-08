@@ -34,12 +34,12 @@
 									<p>${vo.boardContents}</p>
 									<hr>
 									<div>
-										<c:if test="">
+										<c:if test="${vo.boardFileVOs.size() > 0}">
 							  				<b>첨부파일</b>
+							  				<br>
 										</c:if>
 						  				<c:forEach items="${vo.boardFileVOs}" var="f">
 							  				<p><a href="/files/${board}/${f.saveName}">${f.oriName}</a></p>
-							  				<p>${f.saveName}</p>
 						  				</c:forEach>
 						  			</div>
 								</div>

@@ -42,9 +42,9 @@
 										<button class="btn btn-primary mb-3" type="button" id="add">ADD</button>
 									</div>
 									
-									<div class="md-3">
+									<div class="mb-3">
 										<c:forEach items="${vo.boardFileVOs}" var="f">
-											<button class="deleteFile" type="button" data-file-num = "${f.fileNum}">${f.oriName}</button>
+											<button class="deleteFile mb-1 btn" type="button" data-file-num = "${f.fileNum}">${f.oriName}</button>
 										</c:forEach>
 									</div>
 									
