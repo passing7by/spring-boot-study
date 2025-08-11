@@ -68,5 +68,44 @@
 		
 		<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
 		<script type="text/javascript" src="/js/board/board_add.js"></script>
+		<script type="text/javascript">
+			$('#boardContents').summernote({
+				callbacks: {
+					onImageUpload: function(files) {
+						console.log('files: ', files[0]); // files는 list이기 때문에 files[0]를 꺼내야 방금 업로드한 이미지가 꺼내짐
+						let f = new FormData();
+						f.append('bf', files[0]);
+						
+						fetch('./boardFile', {
+							method: 'post',
+							body: f
+						})
+						.then(r => r.text()) // then(): 성공시 실행
+						.then(r => {
+							console.log(r);
+							$('#boardContents').summernote('editor.insertImage', r);
+						})
+						.catch(e => console.log(e)) // catch(): 실패시 실행
+						// .finally() // 성공하든 실패하는 실행
+						;
+					},
+					onMediaDelete: function(files) {
+						let f = $(files[0]).attr('src'); // /files/notice/****.jpg
+						let params = new URLSearchParams();
+						params.append('fileName', f);
+
+						fetch('./boardFileDelete', {
+							method: 'post',
+							body: params
+						})
+						.then(r => r.json())
+						.then(r => {
+							console.log(r);
+						})
+						;
+					}
+				}
+			});
+		</script>
 	</body>
 </html>

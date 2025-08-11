@@ -1,5 +1,6 @@
 package com.winter.app.board.notice;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardFileVO;
 import com.winter.app.board.BoardVO;
+import com.winter.app.commons.FileManager;
 import com.winter.app.commons.Pager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/notice/*")
 @Slf4j
 public class NoticeController {
-
 	@Autowired
 	private NoticeService noticeService;
 	
@@ -212,5 +213,27 @@ public class NoticeController {
 		return "fileDownView";
 		// 맨 먼저 이 이름을 가진 빈의 뷰를 찾음 (BeanCameViewResolver)
 		// 없으면 이 이름.jsp 로 이동 (InteernalResourceViewResolver)
+	}
+	
+	@PostMapping("boardFile")
+	@ResponseBody
+	public String boardFile(MultipartFile bf) throws Exception {
+		log.info(bf.getOriginalFilename());
+		
+		String savedName = noticeService.boardFile(bf);
+		log.info(savedName);
+		
+		return savedName;
+	}
+	
+	@PostMapping("boardFileDelete")
+	@ResponseBody
+	public Boolean boardFileDelete(String fileName) throws Exception {
+		log.info(fileName);
+		
+		boolean result = noticeService.boardFileDelete(fileName);
+		log.info("{}", result);
+		
+		return result;
 	}
 }

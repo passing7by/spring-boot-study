@@ -143,4 +143,21 @@ public class NoticeService implements BoardService {
 		
 		return noticeDAO.fileDetail(boardFileVO);
 	}
+	
+	@Override
+	public String boardFile(MultipartFile bf) throws Exception {
+		if(bf == null || bf.getSize() <= 0) {
+			return null;
+		}
+		String savedName = fileManager.fileSave(upload + board, bf);
+		
+		return "/files/" + board + "/" + savedName;
+	}
+	
+	@Override
+	public boolean boardFileDelete(String fileName) throws Exception {
+		System.out.println(fileName.substring(fileName.lastIndexOf('/')));
+		boolean result = fileManager.fileDelete(upload + board, fileName.substring(fileName.lastIndexOf('/')));
+		return result;
+	}
 }
