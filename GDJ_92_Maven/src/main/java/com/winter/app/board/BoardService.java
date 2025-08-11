@@ -21,4 +21,8 @@ public interface BoardService {
 	public int fileDelete(BoardFileVO boardFileVO) throws Exception;
 	// fileDetail
 	public BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception;
+	// boardFileUpload
+	public String boardFile(MultipartFile bf) throws Exception;
+	// boardFileDelete
+	public boolean boardFileDelete(String fileName) throws Exception;
 }
