@@ -202,4 +202,15 @@ public class NoticeController {
 		
 		return result;
 	}
+	
+	@GetMapping("fileDown")
+	public String fileDown(BoardFileVO boardFileVO, Model model) throws Exception {
+		boardFileVO = noticeService.fileDetail(boardFileVO);
+		
+		model.addAttribute("vo", boardFileVO);
+		
+		return "fileDownView";
+		// 맨 먼저 이 이름을 가진 빈의 뷰를 찾음 (BeanCameViewResolver)
+		// 없으면 이 이름.jsp 로 이동 (InteernalResourceViewResolver)
+	}
 }

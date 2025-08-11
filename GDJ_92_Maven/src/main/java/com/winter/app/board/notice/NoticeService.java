@@ -137,4 +137,10 @@ public class NoticeService implements BoardService {
 		
 		return result2;
 	}
+	
+	@Override
+	public BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception {
+		
+		return noticeDAO.fileDetail(boardFileVO);
+	}
 }

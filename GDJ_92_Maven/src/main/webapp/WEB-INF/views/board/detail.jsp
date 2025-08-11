@@ -39,7 +39,8 @@
 							  				<br>
 										</c:if>
 						  				<c:forEach items="${vo.boardFileVOs}" var="f">
-							  				<p><a href="/files/${board}/${f.saveName}">${f.oriName}</a></p>
+							  				<%-- <p><a href="/files/${board}/${f.saveName}">${f.oriName}</a></p> --%>
+							  				<p><a href="./fileDown?fileNum=${f.fileNum}">${f.oriName}</a></p>
 						  				</c:forEach>
 						  			</div>
 								</div>

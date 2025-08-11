@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.winter.app.board.BoardFileVO;
 import com.winter.app.board.BoardVO;
 import com.winter.app.commons.Pager;
 
@@ -105,5 +106,13 @@ public class QnaController {
 		model.addAttribute("url", url);
 		
 		return "commons/result";
+	}
+	
+	@GetMapping("fileDown")
+	public String fileDown(BoardFileVO boardFileVO, Model model) throws Exception {
+		boardFileVO = qnaService.fileDetail(boardFileVO);
+		model.addAttribute("vo", boardFileVO);
+		
+		return "fileDownView";
 	}
 }

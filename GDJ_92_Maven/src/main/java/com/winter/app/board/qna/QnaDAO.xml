@@ -97,6 +97,10 @@
   	
   	<insert id="replyInsert" parameterType="QnaVO">
   		INSERT INTO QNA (BOARD_TITLE, BOARD_CONTENTS, BOARD_WRITER, BOARD_DATE, BOARD_HIT, BOARD_REF, BOARD_STEP, BOARD_DEPTH)
-		VALUES (#{boardTitle}, #{boardContents}, #{boardWriter}, NOW(), 0, #{boardRef}, #{boardStep}, #{boardDepth});
+			VALUES (#{boardTitle}, #{boardContents}, #{boardWriter}, NOW(), 0, #{boardRef}, #{boardStep}, #{boardDepth});
   	</insert>
+  	
+  	<select id="fileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
+  		SELECT * FROM QNAFILES WHERE FILE_NUM = #{fileNum}
+  	</select>
   </mapper>
