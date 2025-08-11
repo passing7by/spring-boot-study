@@ -120,6 +120,16 @@ public class QnaService implements BoardService {
 		return boardFileVO;
 	}
 	
+	@Override
+	public String boardFile(MultipartFile bf) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
+	@Override
+	public boolean boardFileDelete(String fileName) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
