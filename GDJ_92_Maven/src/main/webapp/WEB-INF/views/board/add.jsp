@@ -67,13 +67,14 @@
 		</div>
 		
 		<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+		
 		<script type="text/javascript" src="/js/board/board_add.js"></script>
 		<script type="text/javascript">
 			$('#boardContents').summernote({
 				callbacks: {
 					onImageUpload: function(files) {
 						console.log('files: ', files[0]); // files는 list이기 때문에 files[0]를 꺼내야 방금 업로드한 이미지가 꺼내짐
-						let f = new FormData();
+						let f = new FormData(); // new FormData()의 기본 enctype: multipart/form-data
 						f.append('bf', files[0]);
 						
 						fetch('./boardFile', {
