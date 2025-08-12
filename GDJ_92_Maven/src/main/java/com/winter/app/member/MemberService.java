@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.commons.FileManager;
+import com.winter.app.transaction.Transaction;
 
 @Service
 public class MemberService {
@@ -21,7 +22,12 @@ public class MemberService {
 	@Value("${member}")
 	private String member;
 	
+	@Autowired
+	private Transaction transaction;
+	
 	public int join(MemberVO memberVO, MultipartFile attach) throws Exception {
+		transaction.t();
+		
 		// 데이터를 받아와서 전처리/후처리
 		
 		System.out.println(attach.getOriginalFilename());
@@ -51,7 +57,7 @@ public class MemberService {
 
 		result = memberDAO.addProfile(profileVO);
 		
-		
+		transaction.t2();
 		return result;
 	};
 }
