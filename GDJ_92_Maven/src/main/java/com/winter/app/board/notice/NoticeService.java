@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardFileVO;
@@ -15,6 +16,7 @@ import com.winter.app.commons.FileManager;
 import com.winter.app.commons.Pager;
 
 @Service
+@Transactional // 만약 rollback이 필요하면 이 어노테이션을 주면 됨 (클래스에 줄 수도, 메서드에 줄 수도 있음)
 public class NoticeService implements BoardService {
 	@Autowired
 	private NoticeDAO noticeDAO;
@@ -51,7 +53,7 @@ public class NoticeService implements BoardService {
 	public BoardVO detail(BoardVO boardVO) throws Exception {
 		return noticeDAO.detail(boardVO);
 	}
-	
+
 	@Override
 	public int add(BoardVO boardVO, MultipartFile[] attaches) throws Exception {
 		int result = noticeDAO.add(boardVO);

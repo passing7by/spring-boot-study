@@ -1,13 +1,18 @@
 package com.winter.app.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.commons.FileManager;
 
 @Service
+@Transactional(rollbackFor = Exception.class) // 만약 rollback이 필요하면 이 어노테이션을 주면 됨 (클래스에 줄 수도, 메서드에 줄 수도 있음) (rollbackFor = Exception.class) 이 부분까지 넣어줘야 동작
 public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
@@ -44,14 +49,33 @@ public class MemberService {
 		profileVO.setUsername(memberVO.getUsername());
 		
 		// 첨부 파일이 있으면 던져지는 예외를 일부러 발생시켜봄
-		if (attach != null) {
-			throw new Exception();			
-		}
+//		if (attach != null) {
+//			throw new Exception();			
+//		}
 		// auto커밋이기 때문에 예외가 던져져도 members 테이블에 데이터가 들어감
 
 		result = memberDAO.addProfile(profileVO);
 		
+		Map<String, Object> map = new HashMap<>();
+		map.put("username", memberVO.getUsername());
+		map.put("roleNum", 3); // 회원가입시에는 모두 일반회원으로, 회원권한을 조정하고싶으면 나중에 관리자가
+		
+		result = memberDAO.addRole(map);
 		
 		return result;
 	};
+	
+	public MemberVO login(MemberVO memberVO) throws Exception {
+		// TODO 강사님 코드 보기
+		
+		// 아이디가 존재하는지 확인
+		if(memberDAO.checkUsername(memberVO) == null) {
+			return null;
+		}
+		
+		// 아이디가 존재하면 존재하는 아이디의 비밀번호와 입력한 비밀번호가 같은지 확인하여 멤버의 모든 정보 가지고 옴
+		memberVO = memberDAO.detail(memberVO);
+		
+		return memberVO;
+	}
 }

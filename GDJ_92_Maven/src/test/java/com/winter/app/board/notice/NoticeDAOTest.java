@@ -10,6 +10,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.winter.app.board.BoardVO;
 
@@ -17,26 +19,31 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest // 객체를 만들면서 테스트용임을 알리는 어노테이션
 @Slf4j
+@Transactional // 이 어노테이션을 SpringBootTest 클래스에 붙이면 테스트에 성공해도 rollback하겠다는 뜻임
 class NoticeDAOTest {
 	@Autowired
 	private NoticeDAO noticeDAO;
 	
+	@Rollback(false) // 롤백 안하겠다는 뜻
 	@Test
 	void insertTest() throws Exception {
-		for(int i=0; i<105; i++) {
+//		for(int i=0; i<105; i++) {
 			NoticeVO noticeVO = new NoticeVO();
-			noticeVO.setBoardTitle("title" + i);
-			noticeVO.setBoardContents("contents" + i);
-			noticeVO.setBoardWriter("writer" + i);
-			int result = noticeDAO.insert(noticeVO);
+//			noticeVO.setBoardTitle("title" + i);
+			noticeVO.setBoardTitle("titleDelete3");
+//			noticeVO.setBoardContents("contents" + i);
+			noticeVO.setBoardContents("contents");
+//			noticeVO.setBoardWriter("writer" + i);
+			noticeVO.setBoardWriter("writer");
+			int result = noticeDAO.add(noticeVO);
 			
-			if(i % 10 == 0) {
-				Thread.sleep(500); // 한꺼번에 너무 많이 들어가면 멈춰버리기 때문에 0.5초 텀을 두라는 얘기
-			}
-		}
+//			if(i % 10 == 0) {
+//				Thread.sleep(500); // 한꺼번에 너무 많이 들어가면 멈춰버리기 때문에 0.5초 텀을 두라는 얘기
+//			}
+//		}
 		
 		// 단정문
-//		assertEquals(1, result); // Error: 0, Failures: 0
+		assertEquals(1, result); // Error: 0, Failures: 0
 //		assertEquals(0, result); // Error: 0, Failures: 1
 	}
 	
@@ -78,7 +85,7 @@ class NoticeDAOTest {
 	
 	@Test
 	void listTest() throws Exception {
-		List<BoardVO> result = noticeDAO.list();
+		List<BoardVO> result = noticeDAO.list(null);
 		
 		log.info("result: {}", result);
 		

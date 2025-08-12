@@ -18,16 +18,22 @@
                 	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
-                		<h1>Index</h1>
+                		<h1>Login Page</h1>
                 		
-                		<c:choose>
-                			<c:when test="${not empty member}">
-		                		<h3>${member.name}님 환영합니다!</h3>
-                			</c:when>
-                			<c:otherwise>
-                				<h3>로그인이 필요합니다.</h3>
-                			</c:otherwise>
-                		</c:choose>
+                		<form action="/member/login" method="post">
+											<div class="mb-3">
+												<label for="username" class="form-label">ID</label>
+												<input type="text" class="form-control" id="username" name="username">
+											</div>
+											<div class="mb-3">
+												<label for="password" class="form-label">PASSWORD</label>
+												<input type="password" class="form-control" id="password" name="password">
+											</div>
+
+											<div>
+												<button class="btn btn-primary mb-3" id="login">LOGIN</button>
+											</div>
+										</form>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>

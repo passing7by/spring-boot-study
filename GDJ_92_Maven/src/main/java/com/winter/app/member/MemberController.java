@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping(value = "/member/*")
+@Slf4j
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
@@ -46,4 +50,45 @@ public class MemberController {
 		
 		return "commons/result";
 	}
+	
+	@GetMapping("login")
+	public String login() {
+		return "member/login";
+	}
+	
+	@PostMapping("login")
+	public String login(MemberVO memberVO, Model model, HttpSession session) throws Exception { // sessiond은 request에서 session을 꺼내서 넣어주는 것임
+		// service 호출
+		memberVO = memberService.login(memberVO);
+		log.info("member detail: {}", memberVO);
+		
+		String msg = "로그인 실패";
+		String url = "./login";
+		if (memberVO != null) {
+			session.setAttribute("member", memberVO);
+			
+			msg = "로그인 성공";
+			url = "/";
+		}
+		
+		model.addAttribute("member", memberVO);
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "commons/result";
+	}
+	
+	@GetMapping("logout")
+	public String logout(Model model, HttpSession session) throws Exception {
+		session.invalidate();
+		
+		String msg = "로그아웃";
+		String url = "/";
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "commons/result";
+	}
+	
 }
