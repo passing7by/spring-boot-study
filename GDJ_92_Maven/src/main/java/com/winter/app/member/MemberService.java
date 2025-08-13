@@ -1,6 +1,7 @@
 package com.winter.app.member;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.commons.FileManager;
+import com.winter.app.products.CartVO;
+import com.winter.app.products.ProductVO;
 
 @Service
 @Transactional(rollbackFor = Exception.class) // 만약 rollback이 필요하면 이 어노테이션을 주면 됨 (클래스에 줄 수도, 메서드에 줄 수도 있음) (rollbackFor = Exception.class) 이 부분까지 넣어줘야 동작
@@ -77,5 +80,13 @@ public class MemberService {
 		memberVO = memberDAO.detail(memberVO);
 		
 		return memberVO;
+	}
+	
+	public int cart(CartVO cartVO) throws Exception {
+		return memberDAO.cart(cartVO);
+	}
+	
+	public List<ProductVO> cartList(MemberVO memberVO) throws Exception {
+		return memberDAO.cartList(memberVO);
 	}
 }

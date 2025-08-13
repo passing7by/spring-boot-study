@@ -1,6 +1,5 @@
 package com.winter.app.board.notice;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.board.BoardFileVO;
 import com.winter.app.board.BoardVO;
-import com.winter.app.commons.FileManager;
 import com.winter.app.commons.Pager;
+import com.winter.app.member.MemberVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -76,6 +76,8 @@ public class NoticeController {
 	
 	@GetMapping("add")
 	public String add() throws Exception {
+		// 권한 검사 필요
+
 		// 페이지 이동만 수행
 		
 		System.out.println("notice/add");
@@ -99,7 +101,12 @@ public class NoticeController {
 //	}
 	
 	@PostMapping("add")
-	public String add(BoardVO boardVO, MultipartFile[] attaches) throws Exception {
+	public String add(BoardVO boardVO, MultipartFile[] attaches, HttpSession session) throws Exception {
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		boardVO.setBoardWriter(memberVO.getUsername());
+		
+		// 여기서도 권한 검사 필요(프론트는 보안이 안 되기 때문)... UPDATE, DELETE에서도 권한 검사 필요
+		
 		// 현재는 첨부파일 없이 글을 등록했을 때, attaches가 null인 상태로 noticeService.add()가 실행됨
 
 //		log.info("{}", attaches.getContentType());

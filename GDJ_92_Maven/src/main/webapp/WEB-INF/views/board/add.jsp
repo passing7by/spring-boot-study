@@ -16,18 +16,19 @@
 			<c:import url="/WEB-INF/views/include/sidebar.jsp"></c:import>
 			<div id="content-wrapper" class="d-flex flex-column">
 				<div id="content">
-                	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
-                	<div class="container-fluid">
-                		<!-- page contents 내용 시작 -->
-                		<h1>Notice Add</h1>
-                		<div class="card shadow mb-4">
-                			<div class="card-body">
+         	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
+         	<div class="container-fluid">
+         		<!-- page contents 내용 시작 -->
+         		<h1>Notice Add</h1>
+         		<div class="card shadow mb-4">
+         			<div class="card-body">
 								<form method="post" enctype="multipart/form-data">
-	                			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
-	                				<input type="hidden" name="boardNum" value="${vo.boardNum}">
+          			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
+          				<input type="hidden" name="boardNum" value="${vo.boardNum}">
 									<div class="mb-3">
-										<label for="boardWriter" class="form-label">Writer</label>
-										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${vo.boardWriter}">
+<%-- 										<label for="boardWriter" class="form-label">Writer</label>
+										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${vo.boardWriter}"> --%>
+										<span>${member.username}</span>
 									</div>
 									<div class="mb-3">
 										<label for="boardTitle" class="form-label">Title</label>

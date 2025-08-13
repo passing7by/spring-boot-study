@@ -63,4 +63,17 @@
 				USERNAME = #{username}
 				AND PASSWORD = #{password};
 		</select>
+		
+		<insert id="cart" parameterType="CartVO">
+  		INSERT INTO CART
+			VALUES (#{username}, #{productNum})
+		</insert>
+		
+		<select id="cartList" parameterType="MemberVO" resultType="ProductVO" >
+			SELECT p.*
+			FROM members m
+			JOIN cart c USING (username)
+			JOIN products p USING (product_num)
+			WHERE username=#{username};
+		</select>
   </mapper>

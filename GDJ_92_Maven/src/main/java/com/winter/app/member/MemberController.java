@@ -1,12 +1,18 @@
 package com.winter.app.member;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.winter.app.products.CartVO;
+import com.winter.app.products.ProductVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -89,6 +95,30 @@ public class MemberController {
 		model.addAttribute("url", url);
 		
 		return "commons/result";
+	}
+	
+	@GetMapping("detail")
+	public String detail() throws Exception {
+		return "member/detail";
+	}
+	
+	@PostMapping("cart")
+	@ResponseBody
+	public int cart(CartVO cartVO, HttpSession session) throws Exception {
+		String username = ((MemberVO) session.getAttribute("member")).getUsername();
+		cartVO.setUsername(username);
+		
+		return memberService.cart(cartVO);
+	}
+	
+	@GetMapping("cartList")
+	public String cartList(HttpSession session, Model model) throws Exception {
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		List<ProductVO> list = memberService.cartList(memberVO);
+		
+		model.addAttribute("list", list);
+		
+		return "member/cartList";
 	}
 	
 }
