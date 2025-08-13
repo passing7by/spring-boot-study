@@ -74,6 +74,7 @@
 			FROM members m
 			JOIN cart c USING (username)
 			JOIN products p USING (product_num)
-			WHERE username=#{username};
+			JOIN products_kind pk USING (kind_num)
+			WHERE username=#{username}
 		</select>
   </mapper>
