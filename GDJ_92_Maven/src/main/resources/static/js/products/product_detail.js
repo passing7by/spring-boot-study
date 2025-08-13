@@ -16,18 +16,37 @@ const actionEls2 = document.querySelectorAll('.action'); // 배열 반환 => 배
 
 const frm = document.querySelector('#frm');
 
+const productNum = document.querySelector('#productNum').value;
+let param = new URLSearchParams();
+param.append("productNum", productNum);
+
 for(a of actionEls1) {
 	a.addEventListener("click", (e) => {
 		let kind = e.target.getAttribute("data-kind");
 		console.log(kind);
 		
 		if(kind === 'd') {
-			frm.setAttribute('method', 'POST')
+			frm.setAttribute('method', 'POST');
 			frm.setAttribute('action', './delete');
 			frm.submit();
-		} else {
+		} else if(kind === 'u') {
 			frm.setAttribute('action', './update');
 			frm.submit();
+		} else {
+			fetch('/member/cart', {
+				method: 'post',
+				body: param
+			})
+			.then(r => r.text())
+			.then(r => {
+				if(r > 0) {
+					confirm('상품을 장바구니에 담았습니다.\n장바구니를 확인하시겠습니까?');
+				} else {
+					alert('상품을 장바구니에 담지 못했습니다.');
+				}
+			})
+			.catch(r => alert('장바구니에 추가 중 문제 발생'));
+			;
 		}
 	});
 }

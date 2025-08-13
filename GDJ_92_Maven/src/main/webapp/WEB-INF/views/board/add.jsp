@@ -16,18 +16,19 @@
 			<c:import url="/WEB-INF/views/include/sidebar.jsp"></c:import>
 			<div id="content-wrapper" class="d-flex flex-column">
 				<div id="content">
-                	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
-                	<div class="container-fluid">
-                		<!-- page contents 내용 시작 -->
-                		<h1>Notice Add</h1>
-                		<div class="card shadow mb-4">
-                			<div class="card-body">
+         	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
+         	<div class="container-fluid">
+         		<!-- page contents 내용 시작 -->
+         		<h1>Notice Add</h1>
+         		<div class="card shadow mb-4">
+         			<div class="card-body">
 								<form method="post" enctype="multipart/form-data">
-	                			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
-	                				<input type="hidden" name="boardNum" value="${vo.boardNum}">
+          			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
+          				<input type="hidden" name="boardNum" value="${vo.boardNum}">
 									<div class="mb-3">
-										<label for="boardWriter" class="form-label">Writer</label>
-										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${vo.boardWriter}">
+<%-- 										<label for="boardWriter" class="form-label">Writer</label>
+										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${vo.boardWriter}"> --%>
+										<span>${member.username}</span>
 									</div>
 									<div class="mb-3">
 										<label for="boardTitle" class="form-label">Title</label>
@@ -67,13 +68,14 @@
 		</div>
 		
 		<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+		
 		<script type="text/javascript" src="/js/board/board_add.js"></script>
 		<script type="text/javascript">
 			$('#boardContents').summernote({
 				callbacks: {
 					onImageUpload: function(files) {
 						console.log('files: ', files[0]); // files는 list이기 때문에 files[0]를 꺼내야 방금 업로드한 이미지가 꺼내짐
-						let f = new FormData();
+						let f = new FormData(); // new FormData()의 기본 enctype: multipart/form-data
 						f.append('bf', files[0]);
 						
 						fetch('./boardFile', {

@@ -18,16 +18,20 @@
                 	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
-                		<h1>Index</h1>
+                		<h1>User Detail</h1>
                 		
-                		<c:choose>
-                			<c:when test="${not empty member}">
-		                		<h3>${member.name}님 환영합니다!</h3>
-                			</c:when>
-                			<c:otherwise>
-                				<h3>로그인이 필요합니다.</h3>
-                			</c:otherwise>
-                		</c:choose>
+                		<div>
+                			<p>${member.username }</p>
+                			<p>${member.password }</p>
+                			<p>${member.name }</p>
+                			<p>${member.email }</p>
+                			<p>${member.phone }</p>
+                			<p>${member.birth }</p>
+                			<img src="/files/member/${member.profileVO.saveName }"/>
+	                 			<c:forEach items="${member.roleVOs }" var="role">
+		                			<p>${role.roleName }</p>
+												</c:forEach>
+                		</div>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>

@@ -18,16 +18,27 @@
                 	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
-                		<h1>Index</h1>
-                		
-                		<c:choose>
-                			<c:when test="${not empty member}">
-		                		<h3>${member.name}님 환영합니다!</h3>
-                			</c:when>
-                			<c:otherwise>
-                				<h3>로그인이 필요합니다.</h3>
-                			</c:otherwise>
-                		</c:choose>
+                		<h1>Cart List</h1>
+                		<div class="row col-md-8 offset-md-2">
+	                		<table class="table table-hover">
+	                			<thead>
+	                				<tr>
+	                					<th>NAME</th>
+	                					<th>RATE</th>
+	                					<th>KIND_NUM</th>
+	                				</tr>
+	                			</thead>
+	                			<tbody>
+	                				<c:forEach items="${list}" var="ProductVO">
+		                				<tr>
+		                					<td><a href="./detail?productNum=${ProductVO.productNum}">${ProductVO.productName}</a></td>
+		                					<td>${ProductVO.productRate}</td>
+		                					<td>${ProductVO.kindNum}</td>
+		                				</tr>
+	                				</c:forEach>
+	                			</tbody>
+	                		</table>
+                		</div>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>

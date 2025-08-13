@@ -1,0 +1,71 @@
+package com.winter.app.interceptors;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.winter.app.board.BoardVO;
+import com.winter.app.member.MemberVO;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@Component
+public class UpdateWriterCheckInterceptor implements HandlerInterceptor {
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return HandlerInterceptor.super.preHandle(request, response, handler);
+	}
+	
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		// 로그인 한 사용자 정보와 작성자 정보 가져오기
+		
+		if (request.getMethod().toUpperCase().equals("POST")) {
+			return;
+		}
+		
+		// 로그인 한 사용자의 정보
+		// 세션에 존재
+		String msg = "다른 작성자의 글은 수정/삭제를 할 수 없습니다.";
+		String url = "./list";
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			modelAndView.setViewName("commons/result");
+			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("url", url);
+			
+			return;
+		}
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		
+		if(memberVO == null) {
+			modelAndView.setViewName("commons/result");
+			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("url", url);
+			
+			return;
+		}
+		
+		System.out.println("member: " + memberVO);
+		
+		// 작성자의 정보
+		// db에서 조회해서 데이터를 담은 vo에 존재 => model에 존재
+		BoardVO noticeVO = (BoardVO) modelAndView.getModel().get("vo");
+		System.out.println("board: " + noticeVO);
+		
+		if(!noticeVO.getBoardWriter().equals(memberVO.getUsername())) {
+			modelAndView.setViewName("commons/result");
+			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("url", url);
+			modelAndView.addObject("vo", null);
+		}
+	}
+}

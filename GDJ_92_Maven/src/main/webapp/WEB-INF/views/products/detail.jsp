@@ -35,11 +35,12 @@
 				  		
 				  		<div>
 				  			<form id="frm">
-				  				<input type="hidden" name="productNum" value="${vo.productNum}">
+				  				<input type="hidden" id="productNum" name="productNum" value="${vo.productNum}">
 				  			</form>
 				  			
 				  			<button class="btn btn-success action" data-kind="u">Update</button>
 				  			<button class="btn btn-danger action" data-kind="d">Delete</button>
+				  			<button class="btn btn-primary action" data-kind="c">장바구니</button>
 				  		</div>
                 		
                 		<!-- page contents 내용 끝 -->
