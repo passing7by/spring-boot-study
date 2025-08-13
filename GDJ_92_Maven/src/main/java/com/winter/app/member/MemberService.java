@@ -87,6 +87,8 @@ public class MemberService {
 	}
 	
 	public List<ProductVO> cartList(MemberVO memberVO) throws Exception {
+		// TODO 페이징 처리 추가해야 함
+		
 		return memberDAO.cartList(memberVO);
 	}
 }

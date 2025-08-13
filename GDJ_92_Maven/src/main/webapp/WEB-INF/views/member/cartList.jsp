@@ -8,6 +8,7 @@
 		<title>home</title>
 		
 		<c:import url="/WEB-INF/views/include/head_css.jsp"></c:import>
+		<script defer type="text/javascript" src="/js/cart/cart_list.js"></script>
 	</head>
 	
 	<body id="page-top">
@@ -23,17 +24,29 @@
 	                		<table class="table table-hover">
 	                			<thead>
 	                				<tr>
-	                					<th>NAME</th>
-	                					<th>RATE</th>
-	                					<th>KIND_NUM</th>
+	                					<th>
+	                						<div class="form-check">
+																<input class="form-check-input" type="checkbox" id="checkAll" name="checkAll">
+																<label class="form-check-label" for="checkAll">전체선택</label>
+															</div>
+														</th>
+	                					<th>상품명</th>
+	                					<th>이자율</th>
+	                					<th>상품종류</th>
 	                				</tr>
 	                			</thead>
 	                			<tbody>
-	                				<c:forEach items="${list}" var="ProductVO">
+	                				<c:forEach items="${list}" var="vo" varStatus="i">
 		                				<tr>
-		                					<td><a href="./detail?productNum=${ProductVO.productNum}">${ProductVO.productName}</a></td>
-		                					<td>${ProductVO.productRate}</td>
-		                					<td>${ProductVO.kindNum}</td>
+		                					<td>
+		                						<div class="form-check">
+																	<input class="form-check-input ch" type="checkbox" id="check-${i.index }">
+																	<label class="form-check-label" for="check-${i.index }">선택</label>
+																</div>
+		                					</td>
+		                					<td><a href="../product/detail?productNum=${vo.productNum}">${vo.productName}</a></td>
+		                					<td>${vo.productRate}</td>
+		                					<td>${vo.kindNum}</td>
 		                				</tr>
 	                				</c:forEach>
 	                			</tbody>

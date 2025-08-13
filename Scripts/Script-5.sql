@@ -212,7 +212,7 @@ WHERE
 	USERNAME = 'new'
 	AND PASSWORD = 'new';
     
-SELECT *
+SELECT p.*
 FROM members m
 JOIN cart c USING (username)
 JOIN products p USING (product_num)
