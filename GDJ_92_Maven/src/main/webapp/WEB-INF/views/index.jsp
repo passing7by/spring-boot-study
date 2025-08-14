@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -19,10 +20,16 @@
                 	<div class="container-fluid">
                 		<!-- page contents 내용 시작 -->
                 		<h1>Index</h1>
+                		<h3>
+                			<spring:message code="welcome.message2" text="hi"/>
+                		</h3>
                 		
                 		<c:choose>
                 			<c:when test="${not empty member}">
 		                		<h3>${member.name}님 환영합니다!</h3>
+		                		<h3>
+		                			<spring:message code="user.info" arguments="${member.username}, ${member.email}" argumentSeparator=","/>
+		                		</h3>
                 			</c:when>
                 			<c:otherwise>
                 				<h3>로그인이 필요합니다.</h3>
