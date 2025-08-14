@@ -91,4 +91,14 @@ public class MemberService {
 		
 		return memberDAO.cartList(memberVO);
 	}
+	
+	public int cartDelete(CartVO[] checkedList) throws Exception {
+		int result = 0;
+		
+		for (CartVO c : checkedList) {
+			result = memberDAO.cartDelete(c);
+		}
+		
+		return result;
+	}
 }

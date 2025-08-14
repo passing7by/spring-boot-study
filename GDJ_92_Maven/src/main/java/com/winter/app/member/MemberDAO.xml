@@ -77,4 +77,23 @@
 			JOIN products_kind pk USING (kind_num)
 			WHERE username=#{username}
 		</select>
+		
+<!-- 		<delete id="cartDelete" parameterType="CartVO">
+			DELETE FROM CART
+			WHERE
+				USERNAME = #{username}
+				AND PRODUCT_NUM = #{productNum}
+		</delete> -->
+		<delete id="cartDelete" parameterType="java.util.Map">
+			DELETE FROM CART
+			<where>
+				USERNAME = #{username}
+				AND
+				PRODUCT_NUM IN (
+				<foreach collection="list" item="item" separator=",">
+					#{item}
+				</foreach>
+				)
+			</where>
+		</delete>
   </mapper>

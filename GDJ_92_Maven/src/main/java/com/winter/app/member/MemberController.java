@@ -10,19 +10,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.winter.app.controller.HomeController;
 import com.winter.app.products.CartVO;
 import com.winter.app.products.ProductVO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
+@Tag(name = "회원", description = "회원 API")
 @Controller
 @RequestMapping(value = "/member/*")
 @Slf4j
 public class MemberController {
+
+    private final HomeController homeController;
 	@Autowired
 	private MemberService memberService;
+
+    MemberController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 	
 	@GetMapping("join")
 	public String join() {
@@ -119,6 +128,20 @@ public class MemberController {
 		model.addAttribute("list", list);
 		
 		return "member/cartList";
+	}
+	
+	@Operation(summary = "장바구니에서 아이템 삭제")
+	@PostMapping("cartDelete")
+	public String cartDelete(Long[] productNum, HttpSession session) throws Exception {
+		MemberVO memberVO = ((MemberVO) session.getAttribute("member"));
+		
+		for (Long p : productNum) {
+//			c.setUsername(username);
+		}
+		
+//		memberService.cartDelete(productNum);
+		
+		return "";
 	}
 	
 }

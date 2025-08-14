@@ -18,10 +18,14 @@ import com.winter.app.board.BoardVO;
 import com.winter.app.commons.Pager;
 import com.winter.app.member.MemberVO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 
+@Tag(name = "공지사항", description = "공지사항 API")
 @Controller
 @RequestMapping(value = "/notice/*")
 @Slf4j
@@ -48,6 +52,7 @@ public class NoticeController {
 //		int result = noticeDAO.insert(noticeVO);
 //	}
 	
+	@Operation(summary = "공지사항 목록 조회")
 	@GetMapping("list")
 	public String list(Pager pager, Model model) throws Exception {
 	// Pager pager 앞에는 @ModelAttribute가 생략되어 있음 => 개발자가 model.addAttribute("pager", pager) 하지 않아도 알아서 해줌
@@ -63,6 +68,7 @@ public class NoticeController {
 		return "board/list";
 	}
 	
+	@Operation(summary = "공지사항 상세정보 조회")
 	@GetMapping("detail")
 	public String detail(BoardVO boardVO, Model model) throws Exception {
 		NoticeVO noticeVO = (NoticeVO) noticeService.detail(boardVO);
@@ -74,6 +80,7 @@ public class NoticeController {
 		return "board/detail";
 	}
 	
+	@Operation(summary = "공지사항 등록 페이지 조회")
 	@GetMapping("add")
 	public String add() throws Exception {
 		// 권한 검사 필요
@@ -100,6 +107,7 @@ public class NoticeController {
 //		res.sendRedirect("list");
 //	}
 	
+	@Operation(summary = "공지사항 등록")
 	@PostMapping("add")
 	public String add(BoardVO boardVO, MultipartFile[] attaches, HttpSession session) throws Exception {
 		MemberVO memberVO = (MemberVO) session.getAttribute("member");
@@ -126,6 +134,7 @@ public class NoticeController {
 		return "redirect:./list";
 	}
 	
+	@Operation(summary = "공지사항 수정 페이지 조회")
 	@GetMapping("update")
 	public String update(NoticeVO noticeVO, Model model) throws Exception {	
 		NoticeVO result = (NoticeVO) noticeService.detail(noticeVO);
@@ -136,6 +145,7 @@ public class NoticeController {
 		return "board/add";
 	}
 	
+	@Operation(summary = "공지사항 수정")
 	@PostMapping("update")
 	public String update(BoardVO boardVO, Model model, MultipartFile[] attaches) throws Exception {
 		int result = noticeService.update(boardVO, attaches);
@@ -157,6 +167,7 @@ public class NoticeController {
 		return "commons/result";
 	}
 	
+	@Operation(summary = "공지사항 삭제")
 	@PostMapping("delete")
 	public String delete(BoardVO boardVO, Model model) throws Exception {
 		int result = noticeService.delete(boardVO);
@@ -188,6 +199,7 @@ public class NoticeController {
 //		return "commons/ajaxResult";
 //	}
 	
+	@Operation(summary = "공지사항 첨부파일 삭제")
 	@PostMapping("fileDelete")
 	@ResponseBody // 응답을 바로 요청시 정한 dataType의 형식으로 내보냄
 	public int fileDelete(BoardFileVO boardFileVO, Model model) throws Exception {	
@@ -211,6 +223,7 @@ public class NoticeController {
 		return result;
 	}
 	
+	@Operation(summary = "공지사항 첨부파일 다운로드")
 	@GetMapping("fileDown")
 	public String fileDown(BoardFileVO boardFileVO, Model model) throws Exception {
 		boardFileVO = noticeService.fileDetail(boardFileVO);
@@ -222,6 +235,7 @@ public class NoticeController {
 		// 없으면 이 이름.jsp 로 이동 (InteernalResourceViewResolver)
 	}
 	
+	@Operation(summary = "공지사항 글 내의 파일을 HDD에 저장")
 	@PostMapping("boardFile")
 	@ResponseBody
 	public String boardFile(MultipartFile bf) throws Exception {
@@ -233,6 +247,7 @@ public class NoticeController {
 		return savedName;
 	}
 	
+	@Operation(summary = "공지사항 글 내의 파일을 HDD에서 삭제")
 	@PostMapping("boardFileDelete")
 	@ResponseBody
 	public Boolean boardFileDelete(String fileName) throws Exception {
