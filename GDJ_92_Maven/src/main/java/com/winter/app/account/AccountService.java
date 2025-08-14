@@ -1,0 +1,64 @@
+package com.winter.app.account;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.winter.app.member.MemberDAO;
+import com.winter.app.member.MemberVO;
+
+@Transactional(rollbackFor = Exception.class)
+@Service
+public class AccountService {
+	@Autowired
+	private AccountDAO accountDAO;
+	
+	@Autowired
+	private MemberDAO memberDAO;
+	
+	public int add(Long[] productNum, MemberVO memberVO) throws Exception {
+		/*
+		int result = 0;
+		 
+		for (Long p : productNum) {
+			AccountVO accountVO = new AccountVO();
+			accountVO.setProductNum(p);
+			accountVO.setAccountNum(String.valueOf(System.nanoTime()));
+			accountVO.setUsername(memberVO.getUsername());
+			
+			result = accountDAO.add(accountVO);
+		}
+		*/
+		
+		// list를 만들고 거기에 AccountVO를 넣어주는 방법
+		int result = 0;
+		
+		List<AccountVO> list = new ArrayList<>();
+		for (Long p : productNum) {
+			AccountVO vo = new AccountVO();
+			vo.setProductNum(p);
+			vo.setAccountNum(String.valueOf(System.nanoTime()));
+			vo.setUsername(memberVO.getUsername());
+			list.add(vo);
+//			Thread.sleep(10);
+		}
+		
+		result = accountDAO.add(list);
+		
+		if(result > 0) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("username", memberVO.getUsername());
+			map.put("list", List.of(productNum));
+			
+			// TODO: service 로직에 맞게 dao와 .xml 수정
+			memberDAO.cartDelete(map);
+		}
+		
+		return result;
+	}
+}
