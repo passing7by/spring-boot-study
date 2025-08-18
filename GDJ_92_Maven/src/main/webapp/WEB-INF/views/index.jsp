@@ -26,6 +26,7 @@
                 		
                 		<c:choose>
                 			<c:when test="${not empty member}">
+								<h3>Add GitHub</h3>
 		                		<h3>${member.name}님 환영합니다!</h3>
 		                		<h3>
 		                			<spring:message code="user.info" arguments="${member.username}, ${member.email}" argumentSeparator=","/>
