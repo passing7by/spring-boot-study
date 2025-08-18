@@ -41,7 +41,6 @@
 				  			<button class="btn btn-success action" data-kind="u">Update</button>
 				  			<button class="btn btn-danger action" data-kind="d">Delete</button>
 				  			<button class="btn btn-primary action" data-kind="c">장바구니</button>
-				  			<button class="btn btn-primary action" data-kind="a">상품가입</button>
 				  		</div>
                 		
                 		<!-- page contents 내용 끝 -->

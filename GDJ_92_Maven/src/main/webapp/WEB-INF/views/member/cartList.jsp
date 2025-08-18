@@ -14,58 +14,47 @@
 	<body id="page-top">
 		<div id="wrapper">
 			<c:import url="/WEB-INF/views/include/sidebar.jsp"></c:import>
-			
 			<div id="content-wrapper" class="d-flex flex-column">
 				<div id="content">
-				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
-				
-       	<div class="container-fluid">
-       	<!-- page contents 내용 시작 -->
-       		<h1>Cart List</h1>
-       		
-       		<form id="frm">
-	       		<div class="row col-md-8 offset-md-2">
-	         		<table class="table table-hover">
-	         			<thead>
-	         				<tr>
-	         					<th>
-	         						<div class="form-check">
-												<input class="form-check-input" type="checkbox" id="checkAll" name="checkAll">
-												<label class="form-check-label" for="checkAll">전체선택</label>
-											</div>
-										</th>
-	         					<th>상품명</th>
-	         					<th>이자율</th>
-	         					<th>상품종류</th>
-	         				</tr>
-	         			</thead>
-	         			<tbody>
-	         				<c:forEach items="${list}" var="vo" varStatus="i">
-	          				<tr>
-	          					<td>
-	          						<div class="form-check">
-													<input class="form-check-input ch" type="checkbox" id="check-${i.index }" name="productNum" value="${vo.productNum }">
-													<label class="form-check-label" for="check-${i.index }">선택</label>
-												</div>
-	          					</td>
-	          					<td><a href="../products/detail?productNum=${vo.productNum}">${vo.productName}</a></td>
-	          					<td>${vo.productRate}</td>
-	          					<td>${vo.kindNum}</td>
-	          				</tr>
-	         				</c:forEach>
-	         			</tbody>
-	         		</table>
-	
-	         		<div>
-	         			<button class="btn btn-danger" id="del">DELETE</button>
-	         			<button class="btn btn-primary" id="add">상품가입</button>
-	         		</div>
-	       		</div>
-        	</form>
-       	<!-- page contents 내용 끝 -->
-       	</div>
+                	<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
+                	<div class="container-fluid">
+                		<!-- page contents 내용 시작 -->
+                		<h1>Cart List</h1>
+                		<div class="row col-md-8 offset-md-2">
+	                		<table class="table table-hover">
+	                			<thead>
+	                				<tr>
+	                					<th>
+	                						<div class="form-check">
+																<input class="form-check-input" type="checkbox" id="checkAll" name="checkAll">
+																<label class="form-check-label" for="checkAll">전체선택</label>
+															</div>
+														</th>
+	                					<th>상품명</th>
+	                					<th>이자율</th>
+	                					<th>상품종류</th>
+	                				</tr>
+	                			</thead>
+	                			<tbody>
+	                				<c:forEach items="${list}" var="vo" varStatus="i">
+		                				<tr>
+		                					<td>
+		                						<div class="form-check">
+																	<input class="form-check-input ch" type="checkbox" id="check-${i.index }">
+																	<label class="form-check-label" for="check-${i.index }">선택</label>
+																</div>
+		                					</td>
+		                					<td><a href="../product/detail?productNum=${vo.productNum}">${vo.productName}</a></td>
+		                					<td>${vo.productRate}</td>
+		                					<td>${vo.kindNum}</td>
+		                				</tr>
+	                				</c:forEach>
+	                			</tbody>
+	                		</table>
+                		</div>
+                		<!-- page contents 내용 끝 -->
+                	</div>
 				</div>
-				
 				<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 			</div>
 		</div>

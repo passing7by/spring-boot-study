@@ -32,7 +32,7 @@ for(a of actionEls1) {
 		} else if(kind === 'u') {
 			frm.setAttribute('action', './update');
 			frm.submit();
-		} else if(kind === 'c') {
+		} else {
 			fetch('/member/cart', {
 				method: 'post',
 				body: param
@@ -47,10 +47,6 @@ for(a of actionEls1) {
 			})
 			.catch(r => alert('장바구니에 추가 중 문제 발생'));
 			;
-		} else {
-			frm.setAttribute('method', 'POST');
-			frm.setAttribute('action', '/account/add');
-			frm.submit();
 		}
 	});
 }
