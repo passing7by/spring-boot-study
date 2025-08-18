@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -22,9 +23,11 @@
          		<h1>Notice Add</h1>
          		<div class="card shadow mb-4">
          			<div class="card-body">
-								<form method="post" enctype="multipart/form-data">
+								<%-- <form method="post" enctype="multipart/form-data"> --%>
+								<form:form method="post" modelAttribute="boardVO" enctype="multipart/form-data">
           			<!-- action 안 쓰면 현재 위치와 동일한 경로로 감 -->
-          				<input type="hidden" name="boardNum" value="${vo.boardNum}">
+          				<%-- <input type="hidden" name="boardNum" value="${vo.boardNum}"> --%>
+          				<form:hidden path="boardNum" />
 									<div class="mb-3">
 <%-- 										<label for="boardWriter" class="form-label">Writer</label>
 										<input type="text" class="form-control" id="boardTitle" name="boardWriter"  value="${vo.boardWriter}"> --%>
@@ -32,7 +35,9 @@
 									</div>
 									<div class="mb-3">
 										<label for="boardTitle" class="form-label">Title</label>
-										<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${vo.boardTitle}">
+										<%-- <input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${vo.boardTitle}"> --%>
+										<form:input path="boardTitle" cssClass="form-control"/>
+										<form:errors path="boardTitle"/>
 									</div>
 									<div class="mb-3">
 										<label for="boardContents" class="form-label">Contents</label>
@@ -57,7 +62,8 @@
 									</div>
 									
 									<button type="submit" class="btn btn-primary">Submit</button>
-								</form>
+								<%-- </form> --%>
+								</form:form>
                 			</div>
                 		</div>
 					<!-- page contents 내용 끝 -->

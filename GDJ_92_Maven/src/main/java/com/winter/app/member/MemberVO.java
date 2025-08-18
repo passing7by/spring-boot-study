@@ -3,6 +3,14 @@ package com.winter.app.member;
 import java.time.LocalDate;
 import java.util.List;
 
+import io.micrometer.common.lang.NonNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,11 +19,23 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberVO {
+	
+	@NotBlank
 	private String username;
+	@NotBlank
+	@Size(min = 6, max = 8)
 	private String password;
+	@NotBlank
+	private String passwordCheck;
+	@NotBlank
 	private String name;
+	@Email
 	private String email;
+//	@Pattern(regexp = "")
 	private String phone;
+//	@Future
+	@NotNull // date 타입에는 NotBlank, NotNull 사용시 에러 발생 
+	@Past
 	private LocalDate birth;
 	
 	private ProfileVO profileVO;

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +19,7 @@ import com.winter.app.products.ProductVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Tag(name = "회원", description = "회원 API")
@@ -24,24 +27,26 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/member/*")
 @Slf4j
 public class MemberController {
-
-    private final HomeController homeController;
 	@Autowired
 	private MemberService memberService;
-
-    MemberController(HomeController homeController) {
-        this.homeController = homeController;
-    }
 	
 	@GetMapping("join")
-	public String join() {
+	public String join(MemberVO memberVO) {
 		System.out.println("member/join - get");
 		
 		return "member/join";
 	}
 	
 	@PostMapping("join")
-	public String join(MemberVO memberVO, MultipartFile profile, Model model) throws Exception {
+	public String join(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
+		
+		boolean checkFalse = memberService.hasMemberError(memberVO, bindingResult);
+		
+		if(bindingResult.hasErrors()) {
+			System.out.println(bindingResult);
+			return "member/join";
+		}		
+		
 		System.out.println("member/join - post");
 		System.out.println(profile.getOriginalFilename());
 		

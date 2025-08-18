@@ -206,7 +206,7 @@
 			</c:when>
 			<c:otherwise>
 				<a href="/member/login">LOGIN</a>
-				<a href="/member/login">JOIN</a>
+				<a href="/member/join">JOIN</a>
 			</c:otherwise>
 		</c:choose>
 		

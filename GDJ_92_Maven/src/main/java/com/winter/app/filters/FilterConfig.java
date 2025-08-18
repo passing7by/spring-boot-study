@@ -23,7 +23,7 @@ public class FilterConfig implements WebMvcConfigurer{
 		return fr;
 	}
 	
-	@Bean
+	// @Bean
 	FilterRegistrationBean<Filter> adminCheckFilter() {
 		FilterRegistrationBean<Filter> fr = new FilterRegistrationBean<>();
 		

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -20,30 +21,43 @@
                 		<!-- page contents 내용 시작 -->
                 		<h1>Join Page</h1>
                 		
-                		<form action="/member/join" method="post" enctype="multipart/form-data">
+                		<%-- <form action="/member/join" method="post" enctype="multipart/form-data"> --%>
+										<form:form action="/member/join" method="post" enctype="multipart/form-data" modelAttribute="memberVO">
 											<div class="mb-3">
 												<label for="username" class="form-label">ID</label>
-												<input type="text" class="form-control" id="username" name="username">
+												<!-- <input type="text" class="form-control" id="username" name="username"> -->
+												<form:input path="username" cssClass="form-control"/>
+												<form:errors path="username"/>
 											</div>
 											<div class="mb-3">
 												<label for="password" class="form-label">PASSWORD</label>
 												<input type="password" class="form-control" id="password" name="password">
+												<form:errors path="password"/>
+											</div>
+											<div class="mb-3">
+												<label for="passwordCheck" class="form-label">passwordCheck</label>
+												<input type="password" class="form-control" id="passwordCheck" name="passwordCheck">
+												<form:errors path="passwordCheck"/>
 											</div>
 											<div class="mb-3">
 												<label for="name" class="form-label">NAME</label>
 												<input type="text" class="form-control" id="name" name="name">
+												<form:errors path="name"/>
 											</div>
 											<div class="mb-3">
 												<label for="email" class="form-label">EMAIL</label>
 												<input type="email" class="form-control" id="email" name="email">
+												<form:errors path="email"/>
 											</div>
 											<div class="mb-3">
 												<label for="phone" class="form-label">PHONE</label>
 												<input type="tel" class="form-control" id="phone" name="phone">
+												<form:errors path="phone"/>
 											</div>
 											<div class="mb-3">
 												<label for="birth" class="form-label">BIRTH</label>
 												<input type="date" class="form-control" id="birth" name="birth">
+												<form:errors path="birth"/>
 											</div>
 											<div class="mb-3">
 												<label for="profile" class="form-label">PROFILE IMAGE</label>
@@ -53,7 +67,8 @@
 											<div>
 												<button class="btn btn-primary mb-3" id="join">JOIN</button>
 											</div>
-										</form>
+										<%-- </form> --%>
+										</form:form>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>

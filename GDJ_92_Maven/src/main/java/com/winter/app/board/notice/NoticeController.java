@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,12 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.winter.app.board.BoardFileVO;
 import com.winter.app.board.BoardVO;
 import com.winter.app.commons.Pager;
+import com.winter.app.controller.HomeController;
 import com.winter.app.member.MemberVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -82,10 +85,12 @@ public class NoticeController {
 	
 	@Operation(summary = "공지사항 등록 페이지 조회")
 	@GetMapping("add")
-	public String add() throws Exception {
+	public String add(@ModelAttribute("boardVO") BoardVO boardVO, Model model) throws Exception {
 		// 권한 검사 필요
 
 		// 페이지 이동만 수행
+		
+//		model.addAttribute(model);
 		
 		System.out.println("notice/add");
 		
@@ -109,7 +114,14 @@ public class NoticeController {
 	
 	@Operation(summary = "공지사항 등록")
 	@PostMapping("add")
-	public String add(BoardVO boardVO, MultipartFile[] attaches, HttpSession session) throws Exception {
+	public String add(@Valid BoardVO boardVO, BindingResult bindingResult, MultipartFile[] attaches, HttpSession session) throws Exception {
+	// BindingResult 선언시 순서 중요!! @Valid가 붙은 매개변수 바로 다음에 선언해야 함
+		
+		if(bindingResult.hasErrors()) {
+			System.out.println(bindingResult);
+			return "board/add";
+		}
+		
 		MemberVO memberVO = (MemberVO) session.getAttribute("member");
 		boardVO.setBoardWriter(memberVO.getUsername());
 		
