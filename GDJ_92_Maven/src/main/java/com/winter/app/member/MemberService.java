@@ -108,6 +108,16 @@ public class MemberService {
 		return memberVO;
 	}
 	
+	public MemberVO detail(MemberVO memberVO) throws Exception {
+		memberVO = memberDAO.detail(memberVO);
+		
+		return memberVO;
+	}
+	
+	public int update(MemberVO memberVO) throws Exception {
+		return memberDAO.update(memberVO);
+	}
+	
 	public int cart(CartVO cartVO) throws Exception {
 		return memberDAO.cart(cartVO);
 	}

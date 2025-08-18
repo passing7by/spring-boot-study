@@ -64,6 +64,16 @@
 				AND PASSWORD = #{password};
 		</select>
 		
+		<update id="update" parameterType="MemberVO">
+			UPDATE members
+			SET 
+				name = #{name}
+		    ,email = #{email}
+		    ,phone = #{phone}
+		    ,birth = #{birth}
+			WHERE username = #{username};
+		</update>
+		
 		<insert id="cart" parameterType="CartVO">
   		INSERT INTO CART
 			VALUES (#{username}, #{productNum})
