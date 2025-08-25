@@ -19,4 +19,6 @@ public interface MemberDAO {
 	public int cart(CartVO cartVO) throws Exception;
 	public List<ProductVO> cartList(MemberVO memberVO) throws Exception;
 	public int cartDelete(CartVO cartVO) throws Exception;
+	
+	public int passwordUpdate(MemberVO memberVO) throws Exception;
 }

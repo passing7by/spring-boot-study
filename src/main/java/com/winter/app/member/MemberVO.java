@@ -1,7 +1,13 @@
 package com.winter.app.member;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
@@ -18,8 +24,22 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO {
+public class MemberVO implements UserDetails {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	    List<GrantedAuthority> authorities = new ArrayList<>();
+	      for(RoleVO roleVO : this.getRoleVOs()) {
+	      	authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+	      }
+			return authorities;
+	}
+
 	@NotBlank(message = "ID는 필수입니다.", groups = AddGroup.class) // 메시지 직접 수정 가능. 단, 다국어 지원 모드에서는 문제가 될 수 있음
 	private String username;
 	@NotBlank

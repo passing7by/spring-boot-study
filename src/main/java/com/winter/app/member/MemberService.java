@@ -6,6 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -17,7 +21,8 @@ import com.winter.app.products.ProductVO;
 
 @Service
 @Transactional(rollbackFor = Exception.class) // 만약 rollback이 필요하면 이 어노테이션을 주면 됨 (클래스에 줄 수도, 메서드에 줄 수도 있음) (rollbackFor = Exception.class) 이 부분까지 넣어줘야 동작
-public class MemberService {
+public class MemberService implements UserDetailsService {
+
 	@Autowired
 	private MemberDAO memberDAO;
 	
@@ -29,6 +34,27 @@ public class MemberService {
 	
 	@Value("${member}")
 	private String member;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberVO memberVO = new MemberVO();
+		memberVO.setUsername(username);
+		
+		System.out.println("로그인 서비스");
+		
+		try {
+			memberVO = memberDAO.detail(memberVO);
+			System.out.println("memberVO: " + memberVO);
+			
+			return memberVO;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return  null;
+	}
 	
 	// 검증 메서드
 	public boolean hasMemberError(MemberVO memberVO, BindingResult bindingResult) throws Exception {
@@ -61,6 +87,9 @@ public class MemberService {
 		System.out.println(attach.getOriginalFilename());
 		
 		// 회원 정보 저장
+		// 저장하기 전에 비번 암호화
+		memberVO.setPassword(passwordEncoder.encode(memberVO.getPassword()));
+		
 		int result = memberDAO.join(memberVO);
 		
 		// 프로필 파일 저장
@@ -94,19 +123,19 @@ public class MemberService {
 		return result;
 	};
 	
-	public MemberVO login(MemberVO memberVO) throws Exception {
-		// TODO 강사님 코드 보기
-		
-		// 아이디가 존재하는지 확인
-		if(memberDAO.checkUsername(memberVO) == null) {
-			return null;
-		}
-		
-		// 아이디가 존재하면 존재하는 아이디의 비밀번호와 입력한 비밀번호가 같은지 확인하여 멤버의 모든 정보 가지고 옴
-		memberVO = memberDAO.detail(memberVO);
-		
-		return memberVO;
-	}
+//	public MemberVO login(MemberVO memberVO) throws Exception {
+//		// TODO 강사님 코드 보기
+//		
+//		// 아이디가 존재하는지 확인
+//		if(memberDAO.checkUsername(memberVO) == null) {
+//			return null;
+//		}
+//		
+//		// 아이디가 존재하면 존재하는 아이디의 비밀번호와 입력한 비밀번호가 같은지 확인하여 멤버의 모든 정보 가지고 옴
+//		memberVO = memberDAO.detail(memberVO);
+//		
+//		return memberVO;
+//	}
 	
 	public MemberVO detail(MemberVO memberVO) throws Exception {
 		memberVO = memberDAO.detail(memberVO);
