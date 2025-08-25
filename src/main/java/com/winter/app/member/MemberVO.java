@@ -25,21 +25,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberVO implements UserDetails {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-	    List<GrantedAuthority> authorities = new ArrayList<>();
-	      for(RoleVO roleVO : this.getRoleVOs()) {
-	      	authorities.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
-	      }
-			return authorities;
-	}
-
+	
 	@NotBlank(message = "ID는 필수입니다.", groups = AddGroup.class) // 메시지 직접 수정 가능. 단, 다국어 지원 모드에서는 문제가 될 수 있음
 	private String username;
 	@NotBlank
@@ -58,7 +46,25 @@ public class MemberVO implements UserDetails {
 	@Past
 	private LocalDate birth;
 	
+	// 아래의 네 개 필드들은 spring security가 제공하는 인터페이스인 UserDetails의 속성들로, spring security의 인증/인가에 사용됨
+	private boolean accountNonExpired;
+	private boolean accountNonLocked;
+	private boolean credentialsNonExpired;
+	private boolean enabled;
+
 	private ProfileVO profileVO;
 	
 	private List<RoleVO> roleVOs;
+	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> list = new ArrayList<>();
+		
+		for (RoleVO roleVO : this.getRoleVOs()) {
+			list.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+		}
+		
+		return list;
+	}
 }

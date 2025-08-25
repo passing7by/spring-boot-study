@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.AntPathMatcher;
 
 @Configuration // 설정 파일이다
 @EnableWebSecurity // 기본 security config 대신 이걸 security config로 사용해라
@@ -58,6 +61,17 @@ public class SecurityConfig {
 //					.passwordParameter("password")
 					.defaultSuccessUrl("/") // 로그인 성공했을 때 redirect로 이동시킬 url
 					.failureUrl("/member/login")
+					;
+			})
+			
+			// logout 설정
+			.logout(logout -> {
+				logout
+					.logoutUrl("/member/logout")
+//					.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) // 이런 방법도 있음
+					.invalidateHttpSession(true)
+					.deleteCookies("JSESSIONID") // 꼭 jsessionid가 아니더라도 특정 쿠키를 지울 수 있음
+					.logoutSuccessUrl("/")
 					;
 			})
 			;

@@ -100,18 +100,18 @@ public class MemberController {
 //		return "commons/result";
 //	}
 	
-	@GetMapping("logout")
-	public String logout(Model model, HttpSession session) throws Exception {
-		session.invalidate();
-		
-		String msg = "로그아웃";
-		String url = "/";
-		
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-		
-		return "commons/result";
-	}
+//	@GetMapping("logout")
+//	public String logout(Model model, HttpSession session) throws Exception {
+//		session.invalidate();
+//		
+//		String msg = "로그아웃";
+//		String url = "/";
+//		
+//		model.addAttribute("msg", msg);
+//		model.addAttribute("url", url);
+//		
+//		return "commons/result";
+//	}
 	
 	@GetMapping("update")
 	public String update(HttpSession session, Model model) throws Exception {

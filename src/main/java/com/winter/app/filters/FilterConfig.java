@@ -22,16 +22,17 @@ public class FilterConfig implements WebMvcConfigurer{
 		
 		return fr;
 	}
-	
+
+// Spring Security를 도입했으므로 이제 필요 없음
 	// @Bean
-	FilterRegistrationBean<Filter> adminCheckFilter() {
-		FilterRegistrationBean<Filter> fr = new FilterRegistrationBean<>();
-		
-		fr.setFilter(new AdminCheckFilter());
-		fr.addUrlPatterns("/notice/add", "/notice/update", "/notice/delete");
-		fr.setOrder(1);
-		
-		return fr;
-	}
+//	FilterRegistrationBean<Filter> adminCheckFilter() {
+//		FilterRegistrationBean<Filter> fr = new FilterRegistrationBean<>();
+//		
+//		fr.setFilter(new AdminCheckFilter());
+//		fr.addUrlPatterns("/notice/add", "/notice/update", "/notice/delete");
+//		fr.setOrder(1);
+//		
+//		return fr;
+//	}
 
 }

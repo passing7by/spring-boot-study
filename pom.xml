@@ -131,8 +131,14 @@
 		<!-- Spring Security -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
 		<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-security</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!--security tag -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -162,7 +168,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
+
 			<!-- 플러그인 추가 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

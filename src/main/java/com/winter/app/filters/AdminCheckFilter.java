@@ -1,51 +1,53 @@
-package com.winter.app.filters;
+// Spring Security를 도입했으므로 이제 필요 없음
 
-import java.io.IOException;
-
-import com.winter.app.member.MemberVO;
-import com.winter.app.member.RoleVO;
-
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
-public class AdminCheckFilter implements Filter {
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		HttpSession session = ((HttpServletRequest) request).getSession(false);
-		if (session != null) {
-			Object o = session.getAttribute("member");
-			
-			boolean isAdmin = false;
-			
-			if(o != null && o instanceof MemberVO) {
-				System.out.println("[로그인되어 있음] 권한 정보:");
-				((MemberVO) o).getRoleVOs().stream().forEach(roleVO -> System.out.println(roleVO));
-				
-				for (RoleVO r : ((MemberVO) o).getRoleVOs()) {
-					if(r.getRoleName().equals("ROLE_ADMIN")) {
-						chain.doFilter(request, response);
-						isAdmin = true;
-						break;
-					}
-				}
-			}
-			
-			if (isAdmin == false) {
-				System.out.println("[로그인되어 있지 않음]");
-				
-				request.setAttribute("msg", "권한이 없습니다.");
-				request.setAttribute("url", "./list");
-				request.getRequestDispatcher("/WEB-INF/views/commons/result.jsp").forward(request, response);
-			}
-		}
-		
-	}
-
-}
+//package com.winter.app.filters;
+//
+//import java.io.IOException;
+//
+//import com.winter.app.member.MemberVO;
+//import com.winter.app.member.RoleVO;
+//
+//import jakarta.servlet.Filter;
+//import jakarta.servlet.FilterChain;
+//import jakarta.servlet.ServletException;
+//import jakarta.servlet.ServletRequest;
+//import jakarta.servlet.ServletResponse;
+//import jakarta.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpSession;
+//
+//public class AdminCheckFilter implements Filter {
+//
+//	@Override
+//	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+//			throws IOException, ServletException {
+//		HttpSession session = ((HttpServletRequest) request).getSession(false);
+//		if (session != null) {
+//			Object o = session.getAttribute("member");
+//			
+//			boolean isAdmin = false;
+//			
+//			if(o != null && o instanceof MemberVO) {
+//				System.out.println("[로그인되어 있음] 권한 정보:");
+//				((MemberVO) o).getRoleVOs().stream().forEach(roleVO -> System.out.println(roleVO));
+//				
+//				for (RoleVO r : ((MemberVO) o).getRoleVOs()) {
+//					if(r.getRoleName().equals("ROLE_ADMIN")) {
+//						chain.doFilter(request, response);
+//						isAdmin = true;
+//						break;
+//					}
+//				}
+//			}
+//			
+//			if (isAdmin == false) {
+//				System.out.println("[로그인되어 있지 않음]");
+//				
+//				request.setAttribute("msg", "권한이 없습니다.");
+//				request.setAttribute("url", "./list");
+//				request.getRequestDispatcher("/WEB-INF/views/commons/result.jsp").forward(request, response);
+//			}
+//		}
+//		
+//	}
+//
+//}

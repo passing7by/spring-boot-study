@@ -21,19 +21,19 @@
                 		<h1>Login Page</h1>
                 		
                 		<form action="/member/login" method="post">
-											<div class="mb-3">
-												<label for="username" class="form-label">ID</label>
-												<input type="text" class="form-control" id="username" name="username">
-											</div>
-											<div class="mb-3">
-												<label for="password" class="form-label">PASSWORD</label>
-												<input type="password" class="form-control" id="password" name="password">
-											</div>
+							<div class="mb-3">
+								<label for="username" class="form-label">ID</label>
+								<input type="text" class="form-control" id="username" name="username">
+							</div>
+							<div class="mb-3">
+								<label for="password" class="form-label">PASSWORD</label>
+								<input type="password" class="form-control" id="password" name="password">
+							</div>
 
-											<div>
-												<button class="btn btn-primary mb-3" id="login">LOGIN</button>
-											</div>
-										</form>
+							<div>
+								<button class="btn btn-primary mb-3" id="login">LOGIN</button>
+							</div>
+						</form>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>
