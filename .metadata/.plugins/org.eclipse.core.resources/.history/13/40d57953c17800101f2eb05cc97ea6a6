@@ -1,0 +1,15 @@
+package com.winter.app.board.account;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/account/*")
+public class AccountController {
+	@PostMapping("add")
+	public String add() {
+		System.out.println("account/add");
+		return "";
+	}
+}

@@ -1,0 +1,20 @@
+# 한글(한국어)
+
+welcome.message=안녕하세요
+user.info=당신의 ID는 {0} 이고, 당신의 이메일은 {1} 입니다.
+
+member.password.notEqual=패스워드가 일치하지 않음
+member.username.duplicate=중복 아이디가 존재함
+
+# 검증 Annotation=값
+NotBlank=필수 입력값입니다.
+
+# 검증 Annotation.멤버변수명=값
+NotBlank.username=ID는 필수 입력값입니다.
+NotBlank.boardTitle=제목은 필수 입력값입니다.
+
+# 근데 boardTtitle은 Notice에도, QNA에도 있음. 그럴 경우에는 아래와 같이 지정
+# 검증 Annotation.vo명(vo의 Bean이름).멤버변수명=값
+
+Size.memberVO.password={0}는 {2}글자 이상 {1}글자 이하여야 합니다.
+# 변수명은 0, min은 2, max는 1로 고정되어 있음

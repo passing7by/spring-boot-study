@@ -1,0 +1,27 @@
+package com.winter.app.account;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AccountService {
+	@Autowired
+	private AccountDAO accountDAO;
+	
+	public int add(Long[] productNum) {
+		int result = 0;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("productNum", map);
+		map.put("productNum", map);
+		
+		for (Long p : productNum) {
+			result = accountDAO.add(p);
+		}
+		
+		return result;
+	}
+}

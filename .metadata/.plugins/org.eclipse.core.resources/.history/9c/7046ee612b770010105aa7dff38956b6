@@ -1,0 +1,20 @@
+package com.winter.app.transfer;
+
+public class Transfers {
+	// 카드를 찍는다...가 반복됨
+	
+	public void takeBus() {
+		// 카드를 찍는다...
+		System.out.println("버스 이용");
+	}
+	
+	public void takeSubWay() {
+		// 카드를 찍는다...
+		System.out.println("지하철 이용");
+	}
+	
+	public void getTaxi() {
+		// 카드를 찍는다...
+		System.out.println("택시 이용");
+	}
+}

@@ -1,0 +1,8 @@
+package com.winter.app.board.account;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class AccountService {
+	
+}

@@ -1,0 +1,37 @@
+package com.winter.app.filters;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import jakarta.servlet.Filter;
+
+@Configuration // 설정용 파일이라는 뜻
+public class FilterConfig implements WebMvcConfigurer{
+
+	@Bean
+	FilterRegistrationBean<Filter> filterRegistrationBean() {
+		FilterRegistrationBean<Filter> fr = new FilterRegistrationBean<>();
+		
+		fr.setFilter(new TestFilter());
+		// 왜 new? 
+		// 1. @component 사용 못해서 스프링이 안만들어주므로
+		
+		fr.addUrlPatterns("/notice/*"); // 여기서 url 지정 가능
+		fr.setOrder(2);
+		
+		return fr;
+	}
+	
+	@Bean
+	FilterRegistrationBean<Filter> adminCheckFilter() {
+		FilterRegistrationBean<Filter> fr = new FilterRegistrationBean<>();
+		
+		fr.setFilter(new AdminCheckFilter());
+		fr.addUrlPatterns("/notice/add", "/notice/update", "/notice/update");
+		fr.setOrder(1);
+		
+		return fr;
+	}
+
+}

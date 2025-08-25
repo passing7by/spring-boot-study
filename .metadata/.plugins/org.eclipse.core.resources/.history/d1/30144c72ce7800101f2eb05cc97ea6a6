@@ -1,0 +1,44 @@
+package com.winter.app.account;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.winter.app.member.MemberVO;
+
+@Service
+public class AccountService {
+	@Autowired
+	private AccountDAO accountDAO;
+	
+	public int add(Long[] productNum, MemberVO memberVO) {
+		int result = 0;
+		
+		List<String> accountNum = new ArrayList<>();
+		
+		for (Long p : productNum) {
+			accountNum.add();
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("productNum", List.of(productNum));
+		map.put("username", memberVO.getUsername());
+		map.put("accountNum", accountNum);
+		
+		
+		for (Long p : productNum) {
+			AccountVO accountVO = new AccountVO();
+			accountVO.setProductNum(p);
+			accountVO.setAccountNum(String.valueOf(System.nanoTime()).substring(0, 13));
+			accountVO.username(memberVO.getUsername());
+		}
+		
+		result = accountDAO.add(map);
+		
+		return result;
+	}
+}

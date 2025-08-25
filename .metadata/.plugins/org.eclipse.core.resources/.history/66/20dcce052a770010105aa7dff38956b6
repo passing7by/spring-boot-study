@@ -1,0 +1,8 @@
+package com.winter.app.transaction;
+
+public class Transaction {
+
+	public void t() {
+		// auto commit 을 false로 만들고, commit or rollback
+	}
+}

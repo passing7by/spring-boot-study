@@ -1,0 +1,6 @@
+package com.winter.app.member;
+
+@Mapper
+public interface MemberDAO {
+
+}

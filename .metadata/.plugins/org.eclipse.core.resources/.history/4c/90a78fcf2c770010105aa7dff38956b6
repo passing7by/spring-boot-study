@@ -1,0 +1,11 @@
+package com.winter.app.transfer;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Pay {
+	
+	public void cardCheck() {
+		System.out.println("카드 체크");
+	}
+}

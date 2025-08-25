@@ -1,0 +1,6 @@
+package com.winter.app.products;
+
+public class CartVO {
+	private String username;
+	
+}

@@ -1,0 +1,7 @@
+# 영어
+
+welcome.message=Hello
+user.info=Your ID is {0} , and Your Email is {1} .
+
+member.password.notEqual=password is not equal
+member.username.duplicate=duplicate id exist

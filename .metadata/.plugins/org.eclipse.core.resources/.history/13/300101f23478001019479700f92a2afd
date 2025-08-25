@@ -1,0 +1,10 @@
+package com.winter.app.board.notice;
+
+import com.winter.app.board.BoardVO;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "헬스 체크 응답")
+public class NoticeVO extends BoardVO {
+
+}

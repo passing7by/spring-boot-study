@@ -1,0 +1,39 @@
+package com.winter.app.filters;
+
+import java.io.IOException;
+
+import org.springframework.boot.web.servlet.ServletComponentScan;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpFilter;
+
+// @Component
+@WebFilter(urlPatterns = "/notice/*")
+public class TestFilter extends HttpFilter implements Filter { // extends HttpFilter를 정말 빼도 되는가?
+       
+    public TestFilter() {
+        super();
+    }
+
+	public void destroy() {
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		// place your code here
+
+		// pass the request along the filter chain
+		System.out.println("Test Filter In");
+		chain.doFilter(request, response);
+		System.out.println("Test Filter Out");
+	}
+
+	public void init(FilterConfig fConfig) throws ServletException {
+	}
+
+}

@@ -1,0 +1,12 @@
+package com.winter.app.schedule;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class TestScheduler {
+	
+	// 반복작업을 할 메서드 선언
+	public void m() throws Exception {
+		System.out.println("============================ m1");
+	}
+}

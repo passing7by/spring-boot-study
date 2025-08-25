@@ -1,0 +1,25 @@
+package com.winter.app.board;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@Schema(description = "헬스 체크 응답")
+public class BoardVO {
+	@Schema(description = "헬스 체크 코드", example = "1000")
+	private Long boardNum;
+	private String boardTitle;
+	private String boardContents;
+	private String boardWriter;
+	private LocalDate boardDate;
+	private Long boardHit;
+	
+	private List<BoardFileVO> boardFileVOs;
+}

@@ -1,0 +1,29 @@
+package com.winter.app.member;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class MemberVO {
+	
+	@NotBlank
+	private String username;
+	@NotBlank
+	private String password;
+	@NotBlank
+	private String name;
+	private String email;
+	private String phone;
+	private LocalDate birth;
+	
+	private ProfileVO profileVO;
+	
+	private List<RoleVO> roleVOs;
+}

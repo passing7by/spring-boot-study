@@ -1,0 +1,6 @@
+# 한글(한국어)
+
+welcome.message=안녕하세요
+user.info=당신의 ID는 {0} 이고, 당신의 이메일은 {1} 입니다.
+
+member.password.notEqual=패스워드가 일치하지 않음

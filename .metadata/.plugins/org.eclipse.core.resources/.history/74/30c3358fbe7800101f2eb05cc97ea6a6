@@ -1,0 +1,15 @@
+package com.winter.app.products;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class CartVO {
+	private String username;
+	private Long productNum;
+}
