@@ -47,14 +47,27 @@ public class MemberVO implements UserDetails {
 	private LocalDate birth;
 	
 	// 아래의 네 개 필드들은 spring security가 제공하는 인터페이스인 UserDetails의 속성들로, spring security의 인증/인가에 사용됨
-	private boolean accountNonExpired;
-	private boolean accountNonLocked;
-	private boolean credentialsNonExpired;
-	private boolean enabled;
+	private Integer accountNonExpired;
+	private Integer accountNonLocked;
+	private Integer credentialsNonExpired;
+	private Integer enabled;
 
 	private ProfileVO profileVO;
 	
 	private List<RoleVO> roleVOs;
+	
+//	public boolean isEnabled() {
+//		return false;
+//	}
+//	public boolean isAccountNonExpired() {
+//		return false;
+//	}
+//	public boolean isAccountNonLocked() {
+//		return false;
+//	}
+//	public boolean isCredentialsNonExpired() {
+//		return false;
+//	}
 	
 
 	@Override
@@ -67,4 +80,6 @@ public class MemberVO implements UserDetails {
 		
 		return list;
 	}
+	
+	
 }
