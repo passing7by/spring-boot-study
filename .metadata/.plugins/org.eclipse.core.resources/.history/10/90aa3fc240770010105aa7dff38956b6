@@ -1,0 +1,106 @@
+package com.winter.app.board.notice;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.winter.app.board.BoardVO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@SpringBootTest // 객체를 만들면서 테스트용임을 알리는 어노테이션
+@Slf4j
+@Transactional
+class NoticeDAOTest {
+	@Autowired
+	private NoticeDAO noticeDAO;
+	
+	@Test
+	@Rollback(false) // 롤백 안하겠다는 뜻
+	void insertTest() throws Exception {
+//		for(int i=0; i<105; i++) {
+			NoticeVO noticeVO = new NoticeVO();
+//			noticeVO.setBoardTitle("title" + i);
+			noticeVO.setBoardTitle("titleDelete");
+//			noticeVO.setBoardContents("contents" + i);
+			noticeVO.setBoardContents("contents");
+//			noticeVO.setBoardWriter("writer" + i);
+			noticeVO.setBoardWriter("writer");
+			int result = noticeDAO.add(noticeVO);
+			
+//			if(i % 10 == 0) {
+//				Thread.sleep(500); // 한꺼번에 너무 많이 들어가면 멈춰버리기 때문에 0.5초 텀을 두라는 얘기
+//			}
+//		}
+		
+		// 단정문
+		assertEquals(1, result); // Error: 0, Failures: 0
+//		assertEquals(0, result); // Error: 0, Failures: 1
+	}
+	
+	@Test
+	void updateTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardNum(2L);
+		noticeVO.setBoardTitle("title4");
+		noticeVO.setBoardContents("contents4");
+		int result = noticeDAO.update(noticeVO);
+		
+		// 단정문
+		assertEquals(1, result);
+	}
+	
+	@Test
+	void deleteTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardNum(1L);
+		int result = noticeDAO.delete(noticeVO);
+		
+		// 단정문
+//		assertEquals(1, result);
+		assertEquals(0, result);
+	}
+	
+	@Test
+	void detailTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardNum(2L);
+		NoticeVO result = (NoticeVO) noticeDAO.detail(noticeVO);
+		
+		// 로그
+		log.info("result: {}", result); // result를 {} 안에서 찍겠다는 뜻
+		
+		// 단정문
+		assertNotNull(result);
+	}
+	
+	@Test
+	void listTest() throws Exception {
+		List<BoardVO> result = noticeDAO.list(null);
+		
+		log.info("result: {}", result);
+		
+		assertTrue(result.size() > 0);
+	}
+	
+	@Test
+	void addTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardContents("test contents");
+		noticeVO.setBoardTitle("test title");
+		noticeVO.setBoardWriter("test writer");
+		int result = noticeDAO.add(noticeVO);
+		
+		assertEquals(1, result);
+	}
+
+}

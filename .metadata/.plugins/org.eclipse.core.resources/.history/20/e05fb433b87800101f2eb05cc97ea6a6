@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성해야 함 -->
+  <mapper namespace="com.winter.app.member.MemberDAO">
+   	<resultMap type="MemberVO" id="detailResult">
+  		<id column="USERNAME" property="username"/>
+  		
+  		<result column="PASSWORD" property="password"/>
+  		<result column="NAME" property="name"/>
+  		<result column="EMAIL" property="email"/>
+  		<result column="PHONE" property="phone"/>
+  		<result column="BIRTH" property="birth"/>
+  		
+  		<!-- association은 1:1 관계에서만 사용 가능 -->
+   		<association property="profileVO" javaType="ProfileVO">
+  			<result column="ORI_NAME" property="oriName"/>
+  			<result column="SAVE_NAME" property="saveName"/>
+  		</association>
+  		
+  		<!-- 1:n -->
+  		<!-- ofType: 제네릭 타입을 의미 -->
+  		<collection property="roleVOs" javaType="java.util.List" ofType="RoleVO">
+  			<id column="ROLE_NUM" property="roleNum"/>
+  			
+  			<result column="ROLE_NAME" property="roleName"/>
+  		</collection>
+  	</resultMap>
+
+  	
+   	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+  	<insert id="join" parameterType="MemberVO">
+  		INSERT INTO MEMBERS
+			VALUES (#{username}, #{password}, #{name}, #{email}, #{phone}, #{birth}, 1, 1, 1, 1)
+  	</insert>
+
+  	<insert id="addProfile" parameterType="ProfileVO">
+  		INSERT INTO PROFILE
+			VALUES (#{username}, #{saveName}, #{oriName})
+  	</insert>
+  	
+  	<insert id="addRole" parameterType="java.util.Map">
+  		INSERT INTO MEMBER_ROLE
+  		VALUES (#{username}, #{roleNum})
+  	</insert>
+		
+		<select id="checkUsername" parameterType="MemberVO" resultType="MemberVO">
+			SELECT USERNAME 
+			FROM MEMBERS
+			WHERE USERNAME = #{username}
+		</select>
+
+		<select id="detail" parameterType="MemberVO" resultMap="detailResult">
+			SELECT *
+			FROM MEMBERS M
+			LEFT JOIN PROFILE P USING(USERNAME)
+			LEFT JOIN MEMBER_ROLE MR USING(USERNAME)
+			LEFT JOIN ROLE R USING(ROLE_NUM)
+			WHERE
+				USERNAME = #{username}
+				AND PASSWORD = #{password};
+		</select>
+		
+		<insert id="cart" parameterType="CartVO">
+  		INSERT INTO CART
+			VALUES (#{username}, #{productNum})
+		</insert>
+		
+		<select id="cartList" parameterType="MemberVO" resultType="ProductVO" >
+			SELECT p.*
+			FROM members m
+			JOIN cart c USING (username)
+			JOIN products p USING (product_num)
+			JOIN products_kind pk USING (kind_num)
+			WHERE username=#{username}
+		</select>
+		
+<!-- 		<delete id="cartDelete" parameterType="CartVO">
+			DELETE FROM CART
+			WHERE
+				USERNAME = #{username}
+				AND PRODUCT_NUM = #{productNum}
+		</delete> -->
+		<delete id="cartDelete">
+			DELETE FROM CART
+			<where>
+				PRODUCT_NUM IN
+				<foreach collection="list" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</where>
+		</delete>
+  </mapper>

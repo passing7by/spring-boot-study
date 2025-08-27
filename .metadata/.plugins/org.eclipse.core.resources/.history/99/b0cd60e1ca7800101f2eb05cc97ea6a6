@@ -1,0 +1,8 @@
+package com.winter.app.account;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface AccountDAO {
+	public int add(Long productNum);
+}

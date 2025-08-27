@@ -61,7 +61,6 @@
 			LEFT JOIN ROLE R USING(ROLE_NUM)
 			WHERE
 				USERNAME = #{username}
-				AND PASSWORD = #{password};
 		</select>
 		
 		<update id="update" parameterType="MemberVO">
@@ -72,6 +71,10 @@
 		    ,phone = #{phone}
 		    ,birth = #{birth}
 			WHERE username = #{username};
+		</update>
+		
+		<update id="passwordUpdate" parameterType="MemberVO">
+			UPDATE members SET password = #{password} WHERE username = #{username}
 		</update>
 		
 		<insert id="cart" parameterType="CartVO">

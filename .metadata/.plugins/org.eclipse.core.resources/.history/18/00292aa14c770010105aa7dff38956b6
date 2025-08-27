@@ -1,0 +1,13 @@
+package com.winter.app.member;
+
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface MemberDAO {
+	public int join(MemberVO memberVO) throws Exception;
+	public int addProfile(ProfileVO memberProfileVO) throws Exception;
+	public int addRole(Map<String, Object> map) throws Exception;
+	public MemberVO checkUsername(MemberVO memberVO) throws Exception; 
+}

@@ -1,0 +1,14 @@
+package com.winter.app.schedule;
+
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+public class TestScheduler {
+	
+	@Scheduled(fixedRateString = "2000") // fixedRate = 2000과 동일
+	// 반복작업을 할 메서드 선언
+	public void m() throws Exception {
+		System.out.println("============================ m1");
+	}
+}

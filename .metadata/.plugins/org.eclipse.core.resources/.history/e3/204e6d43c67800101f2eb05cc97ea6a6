@@ -1,0 +1,20 @@
+package com.winter.app.board.account.copy;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AccountService {
+	@Autowired
+	private AccountDAO accountDAO;
+	
+	public int add(Long[] productNum) {
+		int result = 0;
+		
+		for (Long p : productNum) {
+			result = accountDAO.add(p);
+		}
+		
+		return result;
+	}
+}

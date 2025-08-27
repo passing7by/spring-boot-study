@@ -1,0 +1,16 @@
+package com.winter.app.account;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class AccountDAOTest {
+
+	@Test
+	void testAdd() {
+		fail("Not yet implemented");
+	}
+
+}

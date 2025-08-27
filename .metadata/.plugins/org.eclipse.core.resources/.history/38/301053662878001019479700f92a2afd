@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+const checkAll = document.querySelector('#checkAll');
+const checkBoxes = document.querySelectorAll('.ch');
+// console.log(checkBoxes);
+
+checkAll.addEventListener('change', function() {
+	// console.log('change');
+  // checkBoxes.forEach(e => e.toggleAttribute('checked', checkAll.getAttribute('checked') === 'true'? 'true': 'false'));
+  console.log(checkAll.attributes);
+  if (checkAll.getAttribute('checked')) {
+    checkBoxes.forEach(e => e.setAttribute('checked'));
+  } else {
+    checkBoxes.forEach(e => e.removeAttribute('checked'));
+  }
+
+});
+

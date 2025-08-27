@@ -1,0 +1,44 @@
+package com.winter.app.interceptors;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.winter.app.board.notice.NoticeVO;
+import com.winter.app.member.MemberVO;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@Component
+public class UpdateWriterCheckInterceptor implements HandlerInterceptor {
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		// 로그인 한 사용자 정보와 작성자 정보 가져오기
+		
+		// 로그인 한 사용자의 정보
+		// 세션에 존재
+		String msg = "권한이 없습니다.";
+		String url = "./list";
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("url", url);
+		}
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		
+		if(memberVO == null) return;
+		
+		System.out.println("member: " + memberVO);
+		
+		// 작성자의 정보
+		// db에서 조회해서 데이터를 담은 vo에 존재 => model에 존재
+		NoticeVO noticeVO = (NoticeVO) modelAndView.getModel().get("vo");
+		System.out.println("notice: " + noticeVO);
+	}
+}

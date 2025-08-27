@@ -1,0 +1,9 @@
+package com.winter.app.board.notice;
+
+import com.winter.app.board.BoardVO;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public class NoticeVO extends BoardVO {
+
+}

@@ -1,5 +1,6 @@
 package com.winter.app.member;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.winter.app.configs.InterceptorConfig;
+
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
 import com.winter.app.products.CartVO;
@@ -20,6 +21,8 @@ import com.winter.app.products.ProductVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,13 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 
-    private final InterceptorConfig interceptorConfig;
 	@Autowired
 	private MemberService memberService;
-
-    MemberController(InterceptorConfig interceptorConfig) {
-        this.interceptorConfig = interceptorConfig;
-    }
 	
 	@GetMapping("join")
 	public String join(MemberVO memberVO) {
@@ -79,44 +77,57 @@ public class MemberController {
 	}
 	
 	@GetMapping("login")
-	public String login() {
+	public String login(HttpServletRequest req, Model model, Principal principal) {
+		// 로그인 되어있는 상태일 때는 LOGIN 페이지로 가지 못하도록 막아 보자
+		// 로그인 되어있으면 SESSION에 PRINCIPAL이 있을 것이고, 로그인 안되어있다면 없을 것임
+		if (principal != null) {
+			return "redirect:/";
+		}
+		
+		String rememberId = null;
+		for (Cookie c : req.getCookies()) {
+			rememberId = c.getAttribute("rememberId");
+		}
+		
+		model.addAttribute("rememberId", rememberId);
+		
 		return "member/login";
 	}
 	
-	@PostMapping("login")
-	public String login(MemberVO memberVO, Model model, HttpSession session) throws Exception { // sessiond은 request에서 session을 꺼내서 넣어주는 것임
-		// service 호출
-		memberVO = memberService.login(memberVO);
-		log.info("member detail: {}", memberVO);
-		
-		String msg = "로그인 실패";
-		String url = "./login";
-		if (memberVO != null) {
-			session.setAttribute("member", memberVO);
-			
-			msg = "로그인 성공";
-			url = "/";
-		}
-		
-		model.addAttribute("member", memberVO);
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-		
-		return "commons/result";
-	}
+//	@PostMapping("login")
+//	public String login(MemberVO memberVO, Model model, HttpSession session) throws Exception { // sessiond은 request에서 session을 꺼내서 넣어주는 것임
+//		// service 호출
+//		memberVO = memberService.login(memberVO);
+//		log.info("member detail: {}", memberVO);
+//		
+//		String msg = "로그인 실패";
+//		String url = "./login";
+//		if (memberVO != null) {
+//			session.setAttribute("member", memberVO);
+//			
+//			msg = "로그인 성공";
+//			url = "/";
+//		}
+//		
+//		model.addAttribute("member", memberVO);
+//		model.addAttribute("msg", msg);
+//		model.addAttribute("url", url);
+//		
+//		return "commons/result";
+//	}
 	
-	@GetMapping("logout")
-	public String logout(Model model, HttpSession session) throws Exception {
-		session.invalidate();
-		
-		String msg = "로그아웃";
-		String url = "/";
-		
-		model.addAttribute("msg", msg);
-		model.addAttribute("url", url);
-		
-		return "commons/result";
-	}
+//	@GetMapping("logout")
+//	public String logout(Model model, HttpSession session) throws Exception {
+//		session.invalidate();
+//		
+//		String msg = "로그아웃";
+//		String url = "/";
+//		
+//		model.addAttribute("msg", msg);
+//		model.addAttribute("url", url);
+//		
+//		return "commons/result";
+//	}
 	
 	@GetMapping("update")
 	public String update(HttpSession session, Model model) throws Exception {

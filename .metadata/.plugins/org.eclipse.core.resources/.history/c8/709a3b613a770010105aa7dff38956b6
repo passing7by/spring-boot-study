@@ -1,0 +1,31 @@
+package com.winter.app.transfer;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class TransferTest {
+	@Autowired
+	private Transfers transfers;
+	
+	@Autowired
+	private Pay pay;
+	
+	@Test
+	void test() {
+		// 버스를 탐
+//		pay.cardCheck();
+		transfers.takeBus();
+//		pay.cardCheck();
+		// 버스에서 내림
+		
+//		pay.cardCheck();
+		transfers.takeSubWay();
+//		pay.cardCheck();
+		
+		// 똑같은 메서드(pay.cardCheck())가 반복됨
+		// 그럼 또 묶음을 만들어 메서드를 만들어야 하나? 의미없는 짓...
+		// : OOP의 한계 -> AOP 등장
+	}
+}

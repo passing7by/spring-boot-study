@@ -1,0 +1,25 @@
+package com.winter.app.transfer;
+
+import org.springframework.stereotype.Component;
+
+import com.winter.app.member.MemberVO;
+
+@Component
+public class Transfers {
+	// 카드를 찍는다...가 반복되기 때문에 Pay 클래스에 메서드를 따로 뺌
+	
+	public void takeBus(String num) {
+		// 카드를 찍는다...
+		System.out.println("버스 이용");
+	}
+	
+	public void takeSubWay(MemberVO memberVO) {
+		// 카드를 찍는다...
+		System.out.println("지하철 이용");
+	}
+	
+	public void getTaxi() {
+		// 카드를 찍는다...
+		System.out.println("택시 이용");
+	}
+}

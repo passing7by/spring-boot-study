@@ -1,7 +1,13 @@
 package com.winter.app.member;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
@@ -18,7 +24,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberVO {
+public class MemberVO implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
 	
 	@NotBlank(message = "ID는 필수입니다.", groups = AddGroup.class) // 메시지 직접 수정 가능. 단, 다국어 지원 모드에서는 문제가 될 수 있음
 	private String username;
@@ -38,7 +46,40 @@ public class MemberVO {
 	@Past
 	private LocalDate birth;
 	
+	// 아래의 네 개 필드들은 spring security가 제공하는 인터페이스인 UserDetails의 속성들로, spring security의 인증/인가에 사용됨
+	private Integer accountNonExpired;
+	private Integer accountNonLocked;
+	private Integer credentialsNonExpired;
+	private Integer enabled;
+
 	private ProfileVO profileVO;
 	
 	private List<RoleVO> roleVOs;
+	
+//	public boolean isEnabled() {
+//		return false;
+//	}
+//	public boolean isAccountNonExpired() {
+//		return false;
+//	}
+//	public boolean isAccountNonLocked() {
+//		return false;
+//	}
+//	public boolean isCredentialsNonExpired() {
+//		return false;
+//	}
+	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> list = new ArrayList<>();
+		
+		for (RoleVO roleVO : this.getRoleVOs()) {
+			list.add(new SimpleGrantedAuthority(roleVO.getRoleName()));
+		}
+		
+		return list;
+	}
+	
+	
 }

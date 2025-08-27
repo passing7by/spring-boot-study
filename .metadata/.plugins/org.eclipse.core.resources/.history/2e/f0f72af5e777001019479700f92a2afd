@@ -1,0 +1,35 @@
+package com.winter.app.filters;
+
+import java.io.IOException;
+
+import com.winter.app.member.MemberVO;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+public class AdminCheckFilter implements Filter {
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		HttpSession session = ((HttpServletRequest) request).getSession(false);
+		if (session != null) {
+			Object o = session.getAttribute("member");
+			
+			if(o != null && o instanceof MemberVO) {
+				System.out.println("[로그인되어 있음] 권한 정보:");
+				((MemberVO) o).getRoleVOs().stream().forEach(roleVO -> System.out.println(roleVO));
+			} else {
+				System.out.println("[로그인되어 있지 않음]");
+			}
+		}
+		
+		chain.doFilter(request, response);
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.winter.app.member.validation;
+
+public interface UpdateGroup {
+// 회원 정보 수정시 묶을 그룹
+}

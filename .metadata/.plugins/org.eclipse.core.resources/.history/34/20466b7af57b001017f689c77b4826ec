@@ -1,0 +1,166 @@
+package com.winter.app.member;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.winter.app.products.CartVO;
+import com.winter.app.products.ProductVO;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+@Tag(name = "회원", description = "회원 API")
+@Controller
+@RequestMapping(value = "/member/*")
+@Slf4j
+public class MemberController {
+	@Autowired
+	private MemberService memberService;
+	
+	@GetMapping("join")
+	public String join(MemberVO memberVO) {
+		System.out.println("member/join - get");
+		
+		return "member/join";
+	}
+	
+	@PostMapping("join")
+	public String join(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile profile, Model model) throws Exception {
+		
+		boolean checkFalse = memberService.hasMemberError(memberVO, bindingResult);
+		
+		if(bindingResult.hasErrors()) {
+			System.out.println(bindingResult);
+			return "member/join";
+		}		
+		
+		System.out.println("member/join - post");
+		System.out.println(profile.getOriginalFilename());
+		
+		// form에 제출된 정보들을 Member dto 타입으로 가져와서
+		
+		// db에 데이터 삽입하고
+		int result = memberService.join(memberVO, profile);
+		
+		String msg = "회원가입 실패";
+		String url = "/";
+		if(result > 0) {
+			msg = "회원가입 성공";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		// 회원가입되었다는 창 띄운 다음
+		
+		// 메인페이지로 redirect
+		
+		return "commons/result";
+	}
+	
+	@GetMapping("login")
+	public String login() {
+		return "member/login";
+	}
+	
+	@PostMapping("login")
+	public String login(MemberVO memberVO, Model model, HttpSession session) throws Exception { // sessiond은 request에서 session을 꺼내서 넣어주는 것임
+		// service 호출
+		memberVO = memberService.login(memberVO);
+		log.info("member detail: {}", memberVO);
+		
+		String msg = "로그인 실패";
+		String url = "./login";
+		if (memberVO != null) {
+			session.setAttribute("member", memberVO);
+			
+			msg = "로그인 성공";
+			url = "/";
+		}
+		
+		model.addAttribute("member", memberVO);
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "commons/result";
+	}
+	
+	@GetMapping("logout")
+	public String logout(Model model, HttpSession session) throws Exception {
+		session.invalidate();
+		
+		String msg = "로그아웃";
+		String url = "/";
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "commons/result";
+	}
+	
+	@GetMapping("update")
+	public String update(HttpSession session, Model model) throws Exception {
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		model.addAttribute("memberVO", memberVO);
+		
+		return "member/update";
+	}
+	
+	@PostMapping
+	public String update(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile profile) throws Exception {
+		
+		
+		return "redirect:./detail";
+	}
+	
+	@GetMapping("detail")
+	public String detail() throws Exception {
+		return "member/detail";
+	}
+	
+	@PostMapping("cart")
+	@ResponseBody
+	public int cart(CartVO cartVO, HttpSession session) throws Exception {
+		String username = ((MemberVO) session.getAttribute("member")).getUsername();
+		cartVO.setUsername(username);
+		
+		return memberService.cart(cartVO);
+	}
+	
+	@GetMapping("cartList")
+	public String cartList(HttpSession session, Model model) throws Exception {
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		List<ProductVO> list = memberService.cartList(memberVO);
+		
+		model.addAttribute("list", list);
+		
+		return "member/cartList";
+	}
+	
+	@Operation(summary = "장바구니에서 아이템 삭제")
+	@PostMapping("cartDelete")
+	public String cartDelete(Long[] productNum, HttpSession session) throws Exception {
+		MemberVO memberVO = ((MemberVO) session.getAttribute("member"));
+		
+		for (Long p : productNum) {
+//			c.setUsername(username);
+		}
+		
+//		memberService.cartDelete(productNum);
+		
+		return "";
+	}
+	
+}

@@ -1,0 +1,27 @@
+package com.winter.app.transfer;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class TransferTest {
+	@Autowired
+	private Transfers transfers;
+	
+	@Autowired
+	private Pay pay;
+	
+	@Test
+	void test() {
+		// 버스를 탐
+		pay.cardCheck();
+		transfers.takeBus();
+		pay.cardCheck();
+		// 버스에서 내림
+		
+		pay.cardCheck();
+		transfers.takeSubWay();
+		pay.cardCheck();
+	}
+}

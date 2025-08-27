@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,16 +22,30 @@
                 		<h1>User Detail</h1>
                 		
                 		<div>
-                			<p>${member.username }</p>
+                			<!-- 세션에서 꺼내오는 방법 -->
+<%-- 	               			<sec:authentication property="principal" var="user"/>
+	               			<p>${user.username }</p>
+	               			<p>${user.password }</p>
+	               			<p>${user.name }</p>
+	               			<p>${user.email }</p>
+	               			<p>${user.phone }</p>
+	               			<p>${user.birth }</p>
+	               			<img src="/files/member/${user.profileVO.saveName }"/>
+	                		<c:forEach items="${user.roleVOs }" var="role">
+	                			<p>${role.roleName }</p>
+							</c:forEach>   --%>
+							
+							<!-- DB에서 조회해오는 방법 -->
+							<p>${member.username }</p>
                 			<p>${member.password }</p>
                 			<p>${member.name }</p>
                 			<p>${member.email }</p>
                 			<p>${member.phone }</p>
                 			<p>${member.birth }</p>
                 			<img src="/files/member/${member.profileVO.saveName }"/>
-	                 			<c:forEach items="${member.roleVOs }" var="role">
-		                			<p>${role.roleName }</p>
-												</c:forEach>
+	                 		<c:forEach items="${member.roleVOs }" var="role">
+		                		<p>${role.roleName }</p>
+							</c:forEach>
                 		</div>
                 		<!-- page contents 내용 끝 -->
                 	</div>

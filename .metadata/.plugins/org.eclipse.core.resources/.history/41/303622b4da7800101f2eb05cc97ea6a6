@@ -1,0 +1,48 @@
+package com.winter.app.account;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.winter.app.member.MemberVO;
+
+@Service
+public class AccountService {
+	@Autowired
+	private AccountDAO accountDAO;
+	
+	public int add(Long[] productNum, MemberVO memberVO) {
+		/*
+		int result = 0;
+		 
+		for (Long p : productNum) {
+			AccountVO accountVO = new AccountVO();
+			accountVO.setProductNum(p);
+			accountVO.setAccountNum(String.valueOf(System.nanoTime()));
+			accountVO.setUsername(memberVO.getUsername());
+			
+			result = accountDAO.add(accountVO);
+		}
+		*/
+		
+		// list를 만들고 거기에 AccountVO를 넣어주는 방법
+		int result = 0;
+		
+		// 만약 가입 목록의 productNum과 p가 일치하면 
+		for (Long p : productNum) {
+			AccountVO accountVO = new AccountVO();
+			accountVO.setProductNum(p);
+			accountVO.setAccountNum(String.valueOf(System.nanoTime()));
+			accountVO.setUsername(memberVO.getUsername());
+			
+			result = accountDAO.add(accountVO);
+		}
+		
+		
+		return result;
+	}
+}

@@ -1,0 +1,13 @@
+package com.winter.app.transfer;
+
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+@Component
+@Aspect
+public class Pay {
+	
+	public void cardCheck() {
+		System.out.println("카드 체크");
+	}
+}

@@ -1,0 +1,42 @@
+package com.winter.app.account;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+@SpringBootTest
+@Transactional
+class AccountDAOTest {
+	@Autowired
+	private AccountDAO accountDAO;
+	
+	@Test
+	@DisplayName("Account Add Test") // 테스트 할 메서드의 이름 지정 (구분 하기 쉬우라고)
+	void testAdd() throws Exception {
+		List<AccountVO> list = new ArrayList<>();
+
+		AccountVO vo = new AccountVO();
+		vo.setAccountNum("1");
+		vo.setUsername("new");
+		vo.setProductNum(3L);
+		
+		list.add(vo);
+		
+		AccountVO vo2 = new AccountVO();
+		vo.setAccountNum("2");
+		vo.setUsername("new");
+		vo.setProductNum(4L);
+		
+		list.add(vo2);
+		
+		fail("Not yet implemented");
+	}
+
+}

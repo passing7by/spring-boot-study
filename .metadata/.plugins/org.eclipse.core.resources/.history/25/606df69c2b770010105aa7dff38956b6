@@ -1,0 +1,13 @@
+package com.winter.app.transfer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class TransferTest {
+	@Autowired
+	private Transfers transfers;
+	
+	@Autowired
+	private Pay pay;
+}

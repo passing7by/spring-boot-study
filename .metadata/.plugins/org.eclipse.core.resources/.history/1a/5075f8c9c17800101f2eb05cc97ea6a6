@@ -1,0 +1,11 @@
+package com.winter.app.board.account;
+
+import java.time.LocalDate;
+
+public class AccountVO {
+	private String accountNum;
+	private String username;
+	private Long productNum;
+	private LocalDate accountDate;
+	private Long accountBalance;
+}

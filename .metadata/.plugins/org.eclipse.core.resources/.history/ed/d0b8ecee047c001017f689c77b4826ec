@@ -1,0 +1,6 @@
+package com.winter.app.schedule;
+
+@Component
+public class TestScheduler {
+	
+}

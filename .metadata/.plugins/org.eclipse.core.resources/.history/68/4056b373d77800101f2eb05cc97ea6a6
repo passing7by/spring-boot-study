@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성해야 함 -->
+  <mapper namespace="com.winter.app.account.AccountDAO">
+
+		<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+<!-- 		<insert id="add" parameterType="AccountVO">
+			INSERT INTO ACCOUNT (ACCOUNT_NUM, USERNAME, PRODUCT_NUM, ACCOUNT_DATE, ACCOUNT_BALANCE)
+			VALUES (#{accountNum}, #{username}, #{productNum}, NOW(), 0)
+		</insert> -->
+		<insert id="add" parameterType="java.util.List">
+			<foreach collection="list" item="account" open="" separator="" close="">
+				INSERT INTO ACCOUNT (ACCOUNT_NUM, USERNAME, PRODUCT_NUM, ACCOUNT_DATE, ACCOUNT_BALANCE)
+				VALUES (#{account.accountNum}, #{account.username}, #{account.productNum}, NOW(), 0)
+			</foreach>
+		</insert>
+  </mapper>

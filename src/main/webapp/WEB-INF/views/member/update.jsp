@@ -21,37 +21,37 @@
                 		<!-- page contents 내용 시작 -->
                 		<h1>Member Update Page</h1>
                 		
-										<form:form method="post" modelAttribute="memberVO"  enctype="multipart/form-data">
-										<!-- modelAttribute="member" 라고 했을 때 세션에서 꺼내오는가? -->
-											<div class="mb-3">
-												<label for="name" class="form-label">NAME</label>
-												<form:input path="name" cssClass="form-control"/>
-												<form:errors path="name"/>
-											</div>
-											<div class="mb-3">
-												<label for="email" class="form-label">EMAIL</label>
-												<form:input path="email" cssClass="form-control"/>
-												<form:errors path="email"/>
-											</div>
-											<div class="mb-3">
-												<label for="phone" class="form-label">PHONE</label>
-												<form:input path="phone" cssClass="form-control"/>
-												<form:errors path="phone"/>
-											</div>
-											<div class="mb-3">
-												<label for="birth" class="form-label">BIRTH</label>
-												<input type="date" class="form-control" id="birth" name="birth" value="${member.birth}">
-												<form:errors path="birth"/>
-											</div>
-											<div class="mb-3">
-												<label for="profile" class="form-label">PROFILE IMAGE</label>
-												<input type="file" class="form-control" id="profile" name="profile">
-											</div>
+						<form:form method="post" modelAttribute="memberVO"  enctype="multipart/form-data">
+						<!-- modelAttribute="member" 라고 했을 때 세션에서 꺼내오는가? -->
+							<div class="mb-3">
+								<label for="name" class="form-label">NAME</label>
+								<form:input path="name" cssClass="form-control"/>
+								<form:errors path="name"/>
+							</div>
+							<div class="mb-3">
+								<label for="email" class="form-label">EMAIL</label>
+								<form:input path="email" cssClass="form-control"/>
+								<form:errors path="email"/>
+							</div>
+							<div class="mb-3">
+								<label for="phone" class="form-label">PHONE</label>
+								<form:input path="phone" cssClass="form-control"/>
+								<form:errors path="phone"/>
+							</div>
+							<div class="mb-3">
+								<label for="birth" class="form-label">BIRTH</label>
+								<input type="date" class="form-control" id="birth" name="birth" value="${member.birth}">
+								<form:errors path="birth"/>
+							</div>
+							<div class="mb-3">
+								<label for="profile" class="form-label">PROFILE IMAGE</label>
+								<input type="file" class="form-control" id="profile" name="profile">
+							</div>
 
-											<div>
-												<button class="btn btn-primary mb-3" id="join">JOIN</button>
-											</div>
-										</form:form>
+							<div>
+								<button class="btn btn-primary mb-3" id="join">JOIN</button>
+							</div>
+						</form:form>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>
