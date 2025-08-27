@@ -38,3 +38,4 @@ build/
 ### My Custom ###
 application-prod.properties
 application-dev.properties
+src/main/resources/application-dev.properties

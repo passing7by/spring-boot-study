@@ -25,14 +25,14 @@
                 			<spring:message code="welcome.message2" text="hi"/>
                 		</h3>
                 		
-                 		<sec:authorize access="isAuthenticated()">
+<%--                  		<sec:authorize access="isAuthenticated()">
                 			<sec:authentication property="principal" var="user"/>
                 				<h3>Add GitHub</h3>
                 				<h3>${user.name}님 환영합니다!</h3>
                 		</sec:authorize>
                 		<sec:authorize access="!isAuthenticated()">
                 			<h3>로그인이 필요합니다.</h3>
-                		</sec:authorize>
+                		</sec:authorize> --%>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>

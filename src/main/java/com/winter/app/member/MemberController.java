@@ -196,9 +196,10 @@ public class MemberController {
 		return "";
 	}
 	
-	@GetMapping("kakaoLogin")
-	public String kakaoLogin() throws Exception {
-		return new String();
-	}
+	// 이제 여기로 안 오고 스프링이 알아서 해줌...
+//	@GetMapping("kakaoLogin")
+//	public String kakaoLogin() throws Exception {
+//		
+//	}
 	
 }

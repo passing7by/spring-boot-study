@@ -1,6 +1,8 @@
 package com.winter.app.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -19,9 +25,12 @@ import com.winter.app.commons.FileManager;
 import com.winter.app.products.CartVO;
 import com.winter.app.products.ProductVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @Transactional(rollbackFor = Exception.class) // 만약 rollback이 필요하면 이 어노테이션을 주면 됨 (클래스에 줄 수도, 메서드에 줄 수도 있음) (rollbackFor = Exception.class) 이 부분까지 넣어줘야 동작
-public class MemberService implements UserDetailsService {
+public class MemberService extends DefaultOAuth2UserService implements UserDetailsService {
 
 	@Autowired
 	private MemberDAO memberDAO;
@@ -37,7 +46,60 @@ public class MemberService implements UserDetailsService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
+	
+	@Override
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		log.info("{}", userRequest.getAccessToken());
+		log.info("{}", userRequest.getAdditionalParameters());
+		log.info("{}", userRequest.getClientRegistration());
+		
+//		this.useKakao(userRequest);
+		
+//		return this.useKakao(userRequest);
+		
+		String sns = userRequest.getClientRegistration().getRegistrationId();
+		
+		OAuth2User user = null;
+			
+		if(sns.toUpperCase().equals("KAKAO")) {
+			user = this.useKakao(userRequest);
+		}
+		
+		return user;
+	}
+	
+	private OAuth2User useKakao(OAuth2UserRequest userRequest) {
+		OAuth2User user = super.loadUser(userRequest);
+		log.info("{}", user.getName()); // 사용자 id
+		log.info("{}", user.getAttributes()); // 사용자 정보
+		log.info("{}", user.getAuthorities());
+		
+		Map<String, Object> map = user.getAttributes();
+		log.info("{}", map.get("properties").getClass().getName());
+		LinkedHashMap<String, Object> m = (LinkedHashMap<String, Object>) map.get("properties");
+		MemberVO memberVO = new MemberVO();
+		
+		memberVO.setAccessToken(userRequest.getAccessToken().getTokenValue());
+		
+		memberVO.setUsername(m.get("nickname").toString()); // id를 뭐라고 할 것인가? 위에서 받은 사용자 id 써도 되고, 다른거 써도 됨
+		ProfileVO profileVO = new ProfileVO();
+		
+		profileVO.setSaveName(m.get("profile_image").toString());
+		memberVO.setProfileVO(profileVO);
+		
+		List<RoleVO> lists = new ArrayList<>();
+		RoleVO roleVO = new RoleVO();
+		roleVO.setRoleName("ROLE_MEMBER");
+		lists.add(roleVO);
+		memberVO.setRoleVOs(lists);
+		
+		memberVO.setAttributes(map);
+		
+		memberVO.setSns("kakao");
+		
+		return memberVO;
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		MemberVO memberVO = new MemberVO();
