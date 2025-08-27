@@ -25,6 +25,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Tag(name = "회원", description = "회원 API")
 @Controller
@@ -192,6 +194,11 @@ public class MemberController {
 //		memberService.cartDelete(productNum);
 		
 		return "";
+	}
+	
+	@GetMapping("kakaoLogin")
+	public String kakaoLogin() throws Exception {
+		return new String();
 	}
 	
 }

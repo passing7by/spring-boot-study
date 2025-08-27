@@ -37,3 +37,4 @@ build/
 
 ### My Custom ###
 application-prod.properties
+application-dev.properties
