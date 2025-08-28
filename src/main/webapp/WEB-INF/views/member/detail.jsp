@@ -46,6 +46,10 @@
 	                 		<c:forEach items="${member.roleVOs }" var="role">
 		                		<p>${role.roleName }</p>
 							</c:forEach>
+							
+							<div>
+								<a href="./delete">탈퇴</a>
+							</div>
                 		</div>
                 		<!-- page contents 내용 끝 -->
                 	</div>

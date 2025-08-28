@@ -49,6 +49,11 @@
 								<button class="btn btn-primary mb-3" id="login">LOGIN</button>
 							</div>
 						</form>
+						
+						<div>
+							<!-- <a class="btn btn-warning" href="/member/kakaoLogin">카카오로 로그인</a> -->
+							<a class="btn btn-warning" href="/oauth2/authorization/kakao">카카오로 로그인</a>
+						</div>
                 		<!-- page contents 내용 끝 -->
                 	</div>
 				</div>
