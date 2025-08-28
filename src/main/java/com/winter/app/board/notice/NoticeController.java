@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +61,12 @@ public class NoticeController {
 	@GetMapping("list")
 	public String list(Pager pager, Model model) throws Exception {
 	// Pager pager 앞에는 @ModelAttribute가 생략되어 있음 => 개발자가 model.addAttribute("pager", pager) 하지 않아도 알아서 해줌
+		
+		// 무조건 예외가 발생하도록 설정해서 에러 페이지 테스트
+		if(pager != null) {
+			throw new NullPointerException();
+		}
+		
 		List<BoardVO> list = noticeService.list(pager);
 		
 //		model.addAttribute("board", "Notice");
@@ -271,4 +278,10 @@ public class NoticeController {
 		
 		return result;
 	}
+	
+//	@ExceptionHandler(exception = Exception.class)
+//	public String error2() {
+//		
+//		return "errors/error";
+//	}
 }
