@@ -68,7 +68,7 @@ public class AddLogoutHandler implements LogoutHandler {
 										.uri("https://kapi.kakao.com/v1/user/logout")
 //										.header("Authorization", "Bearer " + memberVO.getAccessToken()) // 토큰 방식
 										.header("Authorization", "KakaoAK " + adminKey) // 어드민 키 방식
-										.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+										.contentType(MediaType.APPLICATION_FORM_URLENCODED) // TODO
 										.bodyValue(param)
 										.retrieve()
 										.bodyToMono(String.class)
