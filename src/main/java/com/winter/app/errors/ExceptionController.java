@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 	
 	@ExceptionHandler(exception = NullPointerException.class)
-	public String error(Model model) {
+	public String error(Model model, NullPointerException ex) { // Model, Exception 받을 수 있음
+		
 		return "errors/error";
 	}
 	
