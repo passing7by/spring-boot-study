@@ -1,9 +1,12 @@
 package com.winter.app.member;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.reactive.function.client.WebClient;
+import com.winter.app.controller.HomeController;
 import com.winter.app.member.validation.AddGroup;
 import com.winter.app.member.validation.UpdateGroup;
 import com.winter.app.products.CartVO;
@@ -25,6 +29,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -34,8 +40,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 public class MemberController {
 
+    private final HomeController homeController;
+
 	@Autowired
 	private MemberService memberService;
+
+    MemberController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 	
 	@GetMapping("join")
 	public String join(MemberVO memberVO) {
@@ -201,5 +213,37 @@ public class MemberController {
 //	public String kakaoLogin() throws Exception {
 //		
 //	}
+	
+	@GetMapping("delete")
+	public String delete(@AuthenticationPrincipal MemberVO memberVO) {
+		System.err.println("[MC] delete() - " + memberVO);
+		
+		if (memberVO.getSns() == null) {
+			// service에서 삭제
+		} else if (memberVO.getSns().equalsIgnoreCase("KAKAO")) {
+			// 연결해제
+			WebClient webClient = WebClient.builder()
+											.baseUrl("https://kapi.kakao.com/v1/user/unlink")
+											.build();
+			
+			Map<String, Object> param = new HashMap<>();
+			param.put("target_id_type", "user_id");
+			param.put("target_id", memberVO.getName());
+			
+			Mono<String> result = webClient.post()
+											.header("Authorization", "Bearer " + memberVO.getAccessToken()) // Bearer 뒤에 공백 꼭 넣기!!!!!!!!!!!!!
+											.bodyValue(param)
+											.retrieve()
+											.bodyToMono(String.class)
+											;
+			
+			System.err.println("[MC] delete() - " + result.block());
+			
+			// 로그아웃도 진행해야 함
+		}
+		
+		return "redirect:./logout";
+	}
+	
 	
 }

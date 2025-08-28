@@ -79,6 +79,8 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 		LinkedHashMap<String, Object> m = (LinkedHashMap<String, Object>) map.get("properties");
 		MemberVO memberVO = new MemberVO();
 		
+		memberVO.setName(user.getName());
+		
 		memberVO.setAccessToken(userRequest.getAccessToken().getTokenValue());
 		
 		memberVO.setUsername(m.get("nickname").toString()); // id를 뭐라고 할 것인가? 위에서 받은 사용자 id 써도 되고, 다른거 써도 됨

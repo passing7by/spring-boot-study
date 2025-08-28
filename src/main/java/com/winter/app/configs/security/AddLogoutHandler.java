@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -29,35 +30,33 @@ public class AddLogoutHandler implements LogoutHandler {
 	@Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
 	private String uri;
 	
+	@Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
+	private String adminKey;
+	
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		// TODO Auto-generated method stub
 //		log.info("logout handler");
 //		log.info("{}", authentication);
 		
-		if(authentication instanceof OAuth2AuthenticationToken) {
-			MemberVO memberVO = (MemberVO) authentication.getPrincipal();
-			if(memberVO.getSns().toUpperCase().equals("KAKAO")) {
-				this.useWithKakao(memberVO);
+		try {
+
+			if(authentication instanceof OAuth2AuthenticationToken) {
+				MemberVO memberVO = (MemberVO) authentication.getPrincipal();
+				if(memberVO.getSns().toUpperCase().equals("KAKAO")) {
+					this.useKakao(memberVO);
+				}
 			}
+			
+		} catch (Exception e) {
+			System.err.println("[ALH] logout() - " + e.getMessage());
 		}
 		
-	}
-	
-	private void useWithKakao(MemberVO memberVO) {
-		WebClient webClient = WebClient.create();
 		
-		Mono<String> result = webClient.get()
-										.uri("https://kauth.kakao.com/oauth/logout?client_id={id}&logout_redirect_uri={uri}", restKey, "http://localhost/member/logout")
-										.retrieve()
-										.bodyToMono(String.class)
-										;
-		
-		log.info("Logout 2 {}", result.block());
 	}
 	
 	private void useKakao(MemberVO memberVO) {
-		
+		           
 		// parameter
 		Map<String, Object> param = new HashMap<>();
 		param.put("target_id_type", "user_id");
@@ -67,7 +66,9 @@ public class AddLogoutHandler implements LogoutHandler {
 		
 		Mono<String> result = webClient.post()
 										.uri("https://kapi.kakao.com/v1/user/logout")
-										.header("Authorizatino", "Bearer " + memberVO.getAccessToken())
+//										.header("Authorization", "Bearer " + memberVO.getAccessToken()) // 토큰 방식
+										.header("Authorization", "KakaoAK " + adminKey) // 어드민 키 방식
+										.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 										.bodyValue(param)
 										.retrieve()
 										.bodyToMono(String.class)
