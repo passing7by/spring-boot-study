@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.AntPathMatcher;
@@ -72,6 +73,9 @@ public class SecurityConfig {
 			
 			// form 관련 설정
 			.formLogin(form -> {
+				form.disable()
+				;
+				/*
 				form
 					.loginPage("/member/login")
 					// 이거 지금은 주석처리 해도 됨. 왜? 파라미터 이름 기본 설정이 "username", "password"이기 때문
@@ -87,9 +91,11 @@ public class SecurityConfig {
 //					.failureUrl("/member/login")
 					.failureHandler(loginFailHandler)
 					;
+				*/
 			})
 			
 			// logout 설정
+			/*
 			.logout(logout -> {
 				logout
 					.logoutUrl("/member/logout")
@@ -102,8 +108,13 @@ public class SecurityConfig {
 					.logoutSuccessHandler(addLogoutSuccessHandler)
 					;
 			})
+			*/
+//			.httpBasic(httpBasic -> {
+//				httpBasic
+//			})
 			
 			// 자동 로그인
+			/*
 			.rememberMe(remember -> {
 				remember
 					.rememberMeParameter("remember-me") // "remember-me" 가 기본값이라 안 써줘도 되긴 함
@@ -114,6 +125,15 @@ public class SecurityConfig {
 					.useSecureCookie(false)
 					;
 			})
+			*/
+			
+			// 지금은 Session 인증방식이 아닌
+			// Token 인증방식이기 때문에 Session을 사용하지 않을 것임
+			.sessionManagement(s -> {
+				s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				;
+			})
+			
 			
 			// Oauth2
 			.oauth2Login(o -> {
