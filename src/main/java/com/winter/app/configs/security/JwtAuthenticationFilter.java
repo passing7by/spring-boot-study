@@ -51,6 +51,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				log.warn("authentication name: {}", authentication.getName());
 			} catch (Exception e) {
 				// TODO: handle exception
+				e.printStackTrace();
+				
+				// SecurityException || MalformedException || SignatureException : 유효하지 않은 jwt 서명
+				// ExpiredJwtException     : 기간이 만료된 token
+				// UnsupportedJwtException : 지원되지 않는 token
+				// IllegalArgumentException: 잘못된 토큰
 			}
 		}
 		

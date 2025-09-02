@@ -56,6 +56,8 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 		
 		Cookie c = new Cookie("accessToken", token);
 		c.setPath("/");
+		c.setMaxAge(180);
+		c.setHttpOnly(true); // js에서 쿠키를 변경하지 못하도록 함
 		
 		response.addCookie(c);
 		

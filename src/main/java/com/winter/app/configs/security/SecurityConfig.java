@@ -72,7 +72,6 @@ public class SecurityConfig {
 				auth
 					.requestMatchers("/notice/add", "/notice/update", "/notice/delete").hasRole("ADMIN") // ROLE_ 는 자동으로 제거되므로 "ADMIN"만 작성
 					.requestMatchers("/projects/add", "/projects/update", "/projects/delete").hasAnyRole("MANAGER", "ADMIN")
-//					.requestMatchers("/member/detail", "/member/logout", "/member/update", "/member/delete").access("hasRole('ROLE_MEMBER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // 이렇게 할 수도 있다~ 참고
 					.requestMatchers("/member/detail", "/member/logout", "/member/update", "/member/delete").authenticated()
 					.anyRequest().permitAll()
 					;
@@ -80,8 +79,7 @@ public class SecurityConfig {
 			
 			// form 관련 설정
 			.formLogin(form -> {
-				form.disable()
-				;
+				form.disable();
 				/*
 				form
 					.loginPage("/member/login")
