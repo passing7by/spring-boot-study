@@ -1,5 +1,7 @@
 package com.winter.app.configs.security;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -42,9 +44,12 @@ public class JwtTokenManager {
 	
 	// 생성자에서 코드 작성 가능
 	@PostConstruct // 생성자 호출 전에 이 메서드를 실행하라는 뜻
-	public void init() {
-		String k = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
-		key = Keys.hmacShaKeyFor(k.getBytes());
+	public void init() throws NoSuchAlgorithmException {
+//		String k = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
+//		key = Keys.hmacShaKeyFor(k.getBytes());
+//		byte[] hashedKey = MessageDigest.getInstance("SHA-256")
+//			                          .digest(this.secretKey.getBytes());
+		key = Keys.hmacShaKeyFor(secretKey.getBytes());
 	}
 	
 	// Token 발급
