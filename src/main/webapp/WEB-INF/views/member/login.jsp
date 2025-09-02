@@ -21,7 +21,8 @@
                 		<h1>Login Page</h1>
                 		
                 		<h3>${param.failMessage }</h3>
-                		<form action="/member/login" method="post">
+                		<!--<form action="/member/login" method="post">-->
+                		<form action="/member/loginProcess" method="post">
 							<div class="mb-3">
 								<label for="username" class="form-label">ID</label>
 								<input type="text" class="form-control" id="username" name="username" value="${not empty cookie.rememberId.value ? cookie.rememberId.value : '' }">

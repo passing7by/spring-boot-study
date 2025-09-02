@@ -3,6 +3,7 @@ package com.winter.app.configs.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -32,6 +33,12 @@ public class SecurityConfig {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private JwtTokenManager jwtTokenManager;
+	
+	@Autowired
+	private AuthenticationConfiguration authenticationConfiguration;
 	
 	// 정적 자원들을 Security에서 제외
 	
@@ -109,6 +116,13 @@ public class SecurityConfig {
 					;
 			})
 			*/
+			.logout(logout -> {
+				logout
+					.logoutUrl("/member/logout")
+					.invalidateHttpSession(true)
+					.deleteCookies("accessToken")
+					.logoutSuccessUrl("/");
+			})
 //			.httpBasic(httpBasic -> {
 //				httpBasic
 //			})
@@ -134,8 +148,11 @@ public class SecurityConfig {
 				;
 			})
 			
+			//
+			.addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), jwtTokenManager))
+			.addFilter(new JwtLoginFilter(authenticationConfiguration.getAuthenticationManager(), jwtTokenManager))
 			
-			// Oauth2
+			// Oauth2z
 			.oauth2Login(o -> {
 				o.userInfoEndpoint(user -> {
 					user.userService(memberService);
