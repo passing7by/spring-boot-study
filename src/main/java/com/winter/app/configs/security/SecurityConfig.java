@@ -118,7 +118,7 @@ public class SecurityConfig {
 				logout
 					.logoutUrl("/member/logout")
 					.invalidateHttpSession(true)
-					.deleteCookies("accessToken")
+					.deleteCookies("accessToken", "refreshToken")
 					.logoutSuccessUrl("/");
 			})
 //			.httpBasic(httpBasic -> {
