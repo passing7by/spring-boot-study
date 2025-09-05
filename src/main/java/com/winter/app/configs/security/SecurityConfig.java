@@ -3,10 +3,12 @@ package com.winter.app.configs.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.AntPathMatcher;
@@ -31,6 +33,12 @@ public class SecurityConfig {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private JwtTokenManager jwtTokenManager;
+	
+	@Autowired
+	private AuthenticationConfiguration authenticationConfiguration;
 	
 	// 정적 자원들을 Security에서 제외
 	
@@ -64,7 +72,6 @@ public class SecurityConfig {
 				auth
 					.requestMatchers("/notice/add", "/notice/update", "/notice/delete").hasRole("ADMIN") // ROLE_ 는 자동으로 제거되므로 "ADMIN"만 작성
 					.requestMatchers("/projects/add", "/projects/update", "/projects/delete").hasAnyRole("MANAGER", "ADMIN")
-//					.requestMatchers("/member/detail", "/member/logout", "/member/update", "/member/delete").access("hasRole('ROLE_MEMBER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // 이렇게 할 수도 있다~ 참고
 					.requestMatchers("/member/detail", "/member/logout", "/member/update", "/member/delete").authenticated()
 					.anyRequest().permitAll()
 					;
@@ -72,6 +79,8 @@ public class SecurityConfig {
 			
 			// form 관련 설정
 			.formLogin(form -> {
+				form.disable();
+				/*
 				form
 					.loginPage("/member/login")
 					// 이거 지금은 주석처리 해도 됨. 왜? 파라미터 이름 기본 설정이 "username", "password"이기 때문
@@ -87,9 +96,11 @@ public class SecurityConfig {
 //					.failureUrl("/member/login")
 					.failureHandler(loginFailHandler)
 					;
+				*/
 			})
 			
 			// logout 설정
+			/*
 			.logout(logout -> {
 				logout
 					.logoutUrl("/member/logout")
@@ -102,8 +113,20 @@ public class SecurityConfig {
 					.logoutSuccessHandler(addLogoutSuccessHandler)
 					;
 			})
+			*/
+			.logout(logout -> {
+				logout
+					.logoutUrl("/member/logout")
+					.invalidateHttpSession(true)
+					.deleteCookies("accessToken", "refreshToken")
+					.logoutSuccessUrl("/");
+			})
+//			.httpBasic(httpBasic -> {
+//				httpBasic
+//			})
 			
 			// 자동 로그인
+			/*
 			.rememberMe(remember -> {
 				remember
 					.rememberMeParameter("remember-me") // "remember-me" 가 기본값이라 안 써줘도 되긴 함
@@ -114,8 +137,20 @@ public class SecurityConfig {
 					.useSecureCookie(false)
 					;
 			})
+			*/
 			
-			// Oauth2
+			// 지금은 Session 인증방식이 아닌
+			// Token 인증방식이기 때문에 Session을 사용하지 않을 것임
+			.sessionManagement(s -> {
+				s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				;
+			})
+			
+			//
+			.addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), jwtTokenManager))
+			.addFilter(new JwtLoginFilter(authenticationConfiguration.getAuthenticationManager(), jwtTokenManager))
+			
+			// Oauth2z
 			.oauth2Login(o -> {
 				o.userInfoEndpoint(user -> {
 					user.userService(memberService);
