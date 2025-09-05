@@ -46,7 +46,7 @@ public class JwtTokenManager {
 	private MemberDAO memberDAO;
 	
 	// 생성자에서 코드 작성 가능
-	@PostConstruct // 생성자 호출 전에 이 메서드를 실행하라는 뜻
+	@PostConstruct // 생성자 호출 후에 이 메서드를 실행하라는 뜻
 	public void init() throws NoSuchAlgorithmException {
 //		String k = Base64.getEncoder().encodeToString(this.secretKey.getBytes());
 //		key = Keys.hmacShaKeyFor(k.getBytes());
